@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.picstory.mapper.PicstoryMapper">
 
+	<select id="login" parameterType="com.picstory.model.User" resultType="com.picstory.model.User">
+		SELECT * FROM TB_USER 
+		WHERE USER_ID = #{user_id} AND USER_PW = #{user_pw}
+	</select>
 
 
 

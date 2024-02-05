@@ -15,5 +15,6 @@ public class User {
 	private String user_nick;
 	private String user_mail;
 	private String joined_at;
+	private String user_fav_tag;
 
 }
