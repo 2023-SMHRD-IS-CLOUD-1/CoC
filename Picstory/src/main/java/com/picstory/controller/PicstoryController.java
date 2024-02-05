@@ -22,19 +22,27 @@ import com.picstory.service.PicstoryService;
 public class PicstoryController {
 	
 	@Resource 
-	private PicstoryService picstoryServise;
+	private PicstoryService picstoryService;
 	
 	// login
 	@PostMapping("/login")
 	public User login(@RequestBody User user){
 		
-		User loginInfo = picstoryServise.login(user);
+		User loginInfo = picstoryService.login(user);
         if(loginInfo != null) {
         	return loginInfo;
         }else {
         	return null;
         }
         
+	}
+	
+	// 회원가입
+	@PostMapping("/joinIn")
+	public String MemberJoin(@RequestBody User user) {
+		picstoryService.MemberJoin(user);
+		System.out.println(user);
+		return "";
 	}
 	
 		

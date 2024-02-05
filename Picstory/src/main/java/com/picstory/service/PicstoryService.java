@@ -21,6 +21,12 @@ public class PicstoryService {
 		return loginInfo;
 		
 	}
+	
+	// 회원가입
+	public void MemberJoin(User user) {
+		picstoryMapper.MemberJoin(user);
+	}
+	
 
 	
 	

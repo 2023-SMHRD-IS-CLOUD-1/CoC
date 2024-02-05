@@ -10,6 +10,9 @@ public interface PicstoryMapper {
 
 	// login
 	public User login(User user);
+	
+	//회원가입
+	public void MemberJoin(User user);
 
 	
 
