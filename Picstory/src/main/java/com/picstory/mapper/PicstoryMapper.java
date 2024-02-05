@@ -1,6 +1,5 @@
 package com.picstory.mapper;
 
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.picstory.model.User;
@@ -10,10 +9,17 @@ public interface PicstoryMapper {
 
 	// login
 	public User login(User user);
-	
-	//회원가입
+
+	// 회원가입
 	public void MemberJoin(User user);
 
-	
+	// 아이디 중복 체크
+	public String IdDoubleCheck(String user_id);
+
+	// 닉네임 중복체크
+	public String nickDoubleCheck(String user_nick);
+
+	// 이메일 중복체크
+	public String mailDoubleCheck(String user_mail);
 
 }
