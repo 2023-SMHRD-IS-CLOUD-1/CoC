@@ -43,5 +43,18 @@ public class PicstoryService {
 		String mailD = picstoryMapper.mailDoubleCheck(user_mail);
 		return mailD;
 	}
+	
+	// 마이페이지
+	public User myinfo(User user) {
+		User myinfo = picstoryMapper.myinfo(user);
+		System.out.println(myinfo);
+
+		return myinfo;
+	}
+	// 회원정보수정
+	public void infoUpdate(User user) {
+		picstoryMapper.infoUpdate(user);
+
+	}
 
 }

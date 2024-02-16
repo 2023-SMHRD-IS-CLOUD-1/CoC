@@ -72,5 +72,20 @@ public class PicstoryController {
 			return true;
 		}
 	}
+	
+	// 마이페이지
+	@PostMapping("/myinfo")
+	public User myinfo(@RequestBody User user) {
+		User myinfo = picstoryService.myinfo(user);
+		return myinfo;
+	}
+
+	// 정보수정
+	@PostMapping("/infoUpdate")
+	public String infoUpdate(@RequestBody User user) {
+		picstoryService.infoUpdate(user);
+		System.out.println("수정" + user);
+		return "";
+	}
 
 }

@@ -21,5 +21,11 @@ public interface PicstoryMapper {
 
 	// 이메일 중복체크
 	public String mailDoubleCheck(String user_mail);
+	
+	// 마이페이지
+	public User myinfo(User user);
+
+	// 정보수정
+	public void infoUpdate(User user);
 
 }

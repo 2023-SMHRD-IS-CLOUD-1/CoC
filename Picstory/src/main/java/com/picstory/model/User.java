@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-	private int user_no;
+	private int user_num;
 	private String user_id;
 	private String user_pw;
 	private String user_name;
 	private String user_nick;
 	private String user_mail;
-	private String joined_at;
-	private String user_fav_tag;
+	private String user_joined;
+	private String user_premium;
 
 }
