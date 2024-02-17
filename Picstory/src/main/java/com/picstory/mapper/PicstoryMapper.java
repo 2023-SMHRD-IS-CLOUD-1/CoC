@@ -1,5 +1,7 @@
 package com.picstory.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.picstory.model.Photo;
@@ -32,5 +34,8 @@ public interface PicstoryMapper {
 	
 	// 이미지 업로드
 	public void imageListUpload(Photo photos);
+	
+	// 이미지 다운로드
+	public List<Photo> imageDownload(Photo user_num);
 
 }

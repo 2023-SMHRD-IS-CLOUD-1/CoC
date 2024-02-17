@@ -62,10 +62,19 @@
 		INSERT INTO tb_photo (user_num, photo_name, photo_url,
 		photo_size)
 		VALUES
-		(#{user_num}, #{photo_name}, #{photo_url}, #{photo_size})
+		(#{user_num}, #{photo_name}, #{photo_url},
+		#{photo_size})
 	</insert>
 
 
+	<!-- 이미지 다운로드 -->
+	<select id="imageDownload"
+		parameterType="com.picstory.model.Photo"
+		resultType="com.picstory.model.Photo">
+		SELECT photo_name, photo_url FROM tb_photo
+		WHERE user_num =
+		#{user_num}
+	</select>
 
 
 

@@ -1,5 +1,7 @@
 package com.picstory.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.http.HttpStatus;
@@ -99,8 +101,6 @@ public class PicstoryController {
 			String[] photoNameArray = data.getPhoto_name().split(",");
 			String[] photoUrlsArray = data.getPhoto_url().split(",");
 			String[] photoSizesArray = data.getPhoto_size().split(",");
-			
-			
 
 			if (data.getLength() == 1) {
 				for (int i = 0; i < data.getLength(); i++) {
@@ -155,6 +155,14 @@ public class PicstoryController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
 		}
+	}
+	
+	// 이미지 다운로드
+	@PostMapping("/imageDownload")
+	public List<Photo> imageDownload(@RequestBody Photo user_num) {
+		List<Photo> storageS3Url = picstoryService.imageDownload(user_num);
+		return storageS3Url;
+
 	}
 
 }

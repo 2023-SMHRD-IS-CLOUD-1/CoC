@@ -1,5 +1,7 @@
 package com.picstory.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class PicstoryService {
 		String mailD = picstoryMapper.mailDoubleCheck(user_mail);
 		return mailD;
 	}
-	
+
 	// 마이페이지
 	public User myinfo(User user) {
 		User myinfo = picstoryMapper.myinfo(user);
@@ -52,16 +54,22 @@ public class PicstoryService {
 
 		return myinfo;
 	}
+
 	// 회원정보수정
 	public void infoUpdate(User user) {
 		picstoryMapper.infoUpdate(user);
 
 	}
-	
+
 	// 이미지 업로드
 	public void imageListUpload(Photo photos) {
 		picstoryMapper.imageListUpload(photos);
 	}
 
+	// 이미지 다운로드
+	public List<Photo> imageDownload(Photo user_num) {
+		List<Photo> storageS3Url = picstoryMapper.imageDownload(user_num);
+		return storageS3Url;
+	}
 
 }
