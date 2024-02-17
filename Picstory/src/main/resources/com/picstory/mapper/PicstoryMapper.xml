@@ -10,14 +10,14 @@
 	</select>
 
 	<!-- 회원가입 -->
-	<insert id="MemberJoin" parameterType="com.picstory.model.User">
+	<insert id="memberJoin" parameterType="com.picstory.model.User">
 		insert into
 		tb_user(user_id, user_pw, user_name, user_nick, user_mail)
 		values(#{user_id}, #{user_pw}, #{user_name}, #{user_nick},
 		#{user_mail})
 	</insert>
 
-	<select id="IdDoubleCheck" parameterType="String"
+	<select id="idDoubleCheck" parameterType="String"
 		resultType="String">
 		select user_id
 		from tb_user

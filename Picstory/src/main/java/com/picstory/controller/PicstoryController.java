@@ -42,7 +42,7 @@ public class PicstoryController {
 	}
 
 	// id 중복확인
-	@GetMapping("/IdDoubleCheck")
+	@GetMapping("/idDoubleCheck")
 	public Boolean idDoubleCheck(@RequestParam String user_id) {
 		String IdD = picstoryService.idDoubleCheck(user_id);
 		if (IdD != null) {
