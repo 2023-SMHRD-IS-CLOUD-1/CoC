@@ -39,21 +39,33 @@
 		from tb_user
 		where user_mail = #{user_mail}
 	</select>
-	
+
 	<!-- 마이페이지 -->
 	<select id="myinfo" parameterType="com.picstory.model.User"
 		resultType="com.picstory.model.User">
 		SELECT * FROM TB_USER
 		WHERE USER_ID = #{user_id}
 	</select>
-	
+
 	<!-- 정보수정 -->
 	<update id="infoUpdate" parameterType="com.picstory.model.User">
 		update tb_user
-		set user_pw = #{user_pw}, user_name = #{user_name}, user_nick = #{user_nick}, user_mail = #{user_mail}
+		set user_pw
+		= #{user_pw}, user_name = #{user_name}, user_nick = #{user_nick},
+		user_mail = #{user_mail}
 		where user_id = #{user_id}
 	</update>
-	
+
+	<!-- 이미지 업로드 -->
+	<insert id="imageListUpload"
+		parameterType="com.picstory.model.Photo">
+		INSERT INTO tb_photo (user_num, photo_name, photo_url,
+		photo_size)
+		VALUES
+		(#{user_num}, #{photo_name}, #{photo_url}, #{photo_size})
+	</insert>
+
+
 
 
 

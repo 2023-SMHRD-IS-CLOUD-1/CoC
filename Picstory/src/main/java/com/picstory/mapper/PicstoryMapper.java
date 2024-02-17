@@ -2,6 +2,7 @@ package com.picstory.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.picstory.model.Photo;
 import com.picstory.model.User;
 
 @Mapper
@@ -11,10 +12,10 @@ public interface PicstoryMapper {
 	public User login(User user);
 
 	// 회원가입
-	public void MemberJoin(User user);
+	public void memberJoin(User user);
 
 	// 아이디 중복 체크
-	public String IdDoubleCheck(String user_id);
+	public String idDoubleCheck(String user_id);
 
 	// 닉네임 중복체크
 	public String nickDoubleCheck(String user_nick);
@@ -27,5 +28,9 @@ public interface PicstoryMapper {
 
 	// 정보수정
 	public void infoUpdate(User user);
+	
+	
+	// 이미지 업로드
+	public void imageListUpload(Photo photos);
 
 }

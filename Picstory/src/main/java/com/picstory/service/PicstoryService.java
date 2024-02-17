@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.picstory.mapper.PicstoryMapper;
+import com.picstory.model.Photo;
 import com.picstory.model.User;
 
 @Service
@@ -22,13 +23,13 @@ public class PicstoryService {
 	}
 
 	// 회원가입
-	public void MemberJoin(User user) {
-		picstoryMapper.MemberJoin(user);
+	public void memberJoin(User user) {
+		picstoryMapper.memberJoin(user);
 	}
 
 	// id 중복확인
-	public String IdDoubleCheck(String user_id) {
-		String IdD = picstoryMapper.IdDoubleCheck(user_id);
+	public String idDoubleCheck(String user_id) {
+		String IdD = picstoryMapper.idDoubleCheck(user_id);
 		return IdD;
 	}
 
@@ -56,5 +57,11 @@ public class PicstoryService {
 		picstoryMapper.infoUpdate(user);
 
 	}
+	
+	// 이미지 업로드
+	public void imageListUpload(Photo photos) {
+		picstoryMapper.imageListUpload(photos);
+	}
+
 
 }
