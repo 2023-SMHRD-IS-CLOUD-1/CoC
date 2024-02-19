@@ -93,78 +93,85 @@ public class PicstoryController {
 	}
 
 	// 이미지 업로드
-	@PostMapping("/imageUpload")
-	public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
-		try {
-			System.out.println(data);
+		@PostMapping("/imageUpload")
+		public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
+			try {
+				System.out.println(data);
 
-			String[] photoNameArray = data.getPhoto_name().split(",");
-			String[] photoUrlsArray = data.getPhoto_url().split(",");
-			String[] photoSizesArray = data.getPhoto_size().split(",");
+				String[] photoNameArray = data.getS3_photo_name().split(",");
+				String[] photoUrlsArray = data.getPhoto_url().split(",");
+				String[] photoSizesArray = data.getPhoto_size().split(",");
+				String[] userPhotoNameArray = data.getUser_photo_name().split(",");
 
-			if (data.getLength() == 1) {
-				for (int i = 0; i < data.getLength(); i++) {
+				if (data.getLength() == 1) {
+					for (int i = 0; i < data.getLength(); i++) {
 
-					for (int j = 0; j < photoNameArray.length; j++) {
-						photoNameArray[j] = photoNameArray[j].replace("[", "");
-						photoNameArray[j] = photoNameArray[j].replace("]", "");
-						photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
-						photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
-						photoSizesArray[j] = photoSizesArray[j].replace("[", "");
-						photoSizesArray[j] = photoSizesArray[j].replace("]", "");
+						for (int j = 0; j < photoNameArray.length; j++) {
+							photoNameArray[j] = photoNameArray[j].replace("[", "");
+							photoNameArray[j] = photoNameArray[j].replace("]", "");
+							photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
+							photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
+							photoSizesArray[j] = photoSizesArray[j].replace("[", "");
+							photoSizesArray[j] = photoSizesArray[j].replace("]", "");
+							userPhotoNameArray[j] = userPhotoNameArray[j].replace("[", "");
+							userPhotoNameArray[j] = userPhotoNameArray[j].replace("]", "");
+						}
+
 					}
 
-				}
-
-				for (int j = 0; j < photoUrlsArray.length; j++) {
-					Photo photo = new Photo();
-					photo.setUser_num(data.getUser_num());
-					photo.setPhoto_name(photoNameArray[j]);
-					photo.setPhoto_url(photoUrlsArray[j]);
-					photo.setPhoto_size(photoSizesArray[j]);
-					picstoryService.imageListUpload(photo);
-				}
-
-			} else {
-				for (int i = 0; i < data.getLength() + 1; i++) {
-
-					for (int j = 0; j <= photoNameArray.length - 1; j++) {
-						photoNameArray[j] = photoNameArray[j].replace("[", "");
-						photoNameArray[j] = photoNameArray[j].replace("]", "");
-						photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
-						photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
-						photoSizesArray[j] = photoSizesArray[j].replace("[", "");
-						photoSizesArray[j] = photoSizesArray[j].replace("]", "");
+					for (int j = 0; j < photoUrlsArray.length; j++) {
+						Photo photo = new Photo();
+						photo.setUser_num(data.getUser_num());
+						photo.setS3_photo_name(photoNameArray[j]);
+						photo.setPhoto_url(photoUrlsArray[j]);
+						photo.setPhoto_size(photoSizesArray[j]);
+						photo.setUser_photo_name(userPhotoNameArray[j]);
+						picstoryService.imageListUpload(photo);
 					}
 
+				} else {
+					for (int i = 0; i < data.getLength() + 1; i++) {
+
+						for (int j = 0; j <= photoNameArray.length - 1; j++) {
+							photoNameArray[j] = photoNameArray[j].replace("[", "");
+							photoNameArray[j] = photoNameArray[j].replace("]", "");
+							photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
+							photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
+							photoSizesArray[j] = photoSizesArray[j].replace("[", "");
+							photoSizesArray[j] = photoSizesArray[j].replace("]", "");
+							userPhotoNameArray[j] = userPhotoNameArray[j].replace("[", "");
+							userPhotoNameArray[j] = userPhotoNameArray[j].replace("]", "");
+						}
+
+					}
+
+					for (int j = 0; j <= photoUrlsArray.length - 1; j++) {
+						Photo photo = new Photo();
+						photo.setUser_num(data.getUser_num());
+						photo.setS3_photo_name(photoNameArray[j]);
+						photo.setPhoto_url(photoUrlsArray[j]);
+						photo.setPhoto_size(photoSizesArray[j]);
+						photo.setUser_photo_name(userPhotoNameArray[j]);
+						picstoryService.imageListUpload(photo);
+					}
 				}
 
-				for (int j = 0; j <= photoUrlsArray.length - 1; j++) {
-					Photo photo = new Photo();
-					photo.setUser_num(data.getUser_num());
-					photo.setPhoto_name(photoNameArray[j]);
-					photo.setPhoto_url(photoUrlsArray[j]);
-					photo.setPhoto_size(photoSizesArray[j]);
-					picstoryService.imageListUpload(photo);
-				}
+				return ResponseEntity.ok("File upload successful");
+			} catch (Exception e) {
+				// 오류가 발생했다면 500 Internal Server Error 응답 반환
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
 			}
-
-			return ResponseEntity.ok("File upload successful");
-		} catch (Exception e) {
-			// 오류가 발생했다면 500 Internal Server Error 응답 반환
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
 		}
-	}
-	
-	// 이미지 다운로드
-	@PostMapping("/imageDownload")
-	public List<Photo> imageDownload(@RequestBody Photo user_num) {
-		List<Photo> storageS3Url = picstoryService.imageDownload(user_num);
-		return storageS3Url;
+		
+		// 이미지 다운로드
+		@PostMapping("/imageDownload")
+		public List<Photo> imageDownload(@RequestBody Photo user_num) {
+			
+			List<Photo> storageS3Url = picstoryService.imageDownload(user_num);
+			return storageS3Url;
 
-	}
-	
+		}
 	// 아이디 찾기
 		@PostMapping("/selectId")
 		public User selectId(@RequestBody User user) {

@@ -59,11 +59,8 @@
 	<!-- 이미지 업로드 -->
 	<insert id="imageListUpload"
 		parameterType="com.picstory.model.Photo">
-		INSERT INTO tb_photo (user_num, photo_name, photo_url,
-		photo_size)
-		VALUES
-		(#{user_num}, #{photo_name}, #{photo_url},
-		#{photo_size})
+		INSERT INTO tb_photo (user_num, s3_photo_name, user_photo_name, photo_url,photo_size, photo_favor)
+		VALUES(#{user_num}, #{s3_photo_name},#{user_photo_name}, #{photo_url}, #{photo_size}, '10')
 	</insert>
 
 
@@ -71,7 +68,7 @@
 	<select id="imageDownload"
 		parameterType="com.picstory.model.Photo"
 		resultType="com.picstory.model.Photo">
-		SELECT photo_name, photo_url FROM tb_photo
+		SELECT s3_photo_name, photo_url, user_photo_name FROM tb_photo
 		WHERE user_num =
 		#{user_num}
 	</select>
