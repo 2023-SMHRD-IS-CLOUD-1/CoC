@@ -72,4 +72,20 @@ public class PicstoryService {
 		return storageS3Url;
 	}
 
+	// 아이디찾기
+	public User selectId(User user) {
+		User info = picstoryMapper.selectId(user);
+		System.out.printf("Service - 받아온 데이터 : ", info);
+
+		return info;
+	}
+
+	// 비밀찾기
+	public User selectPw(User user) {
+		User info = picstoryMapper.selectPw(user);
+		System.out.printf("Service - 받아온 데이터 : ", info);
+
+		return info;
+	}
+
 }

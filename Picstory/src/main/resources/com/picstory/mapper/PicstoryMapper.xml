@@ -76,6 +76,25 @@
 		#{user_num}
 	</select>
 
+	<!-- 아이디 찾기 -->
+	<select id="selectId" parameterType="com.picstory.model.User"
+		resultType="com.picstory.model.User">
+		SELECT user_id,user_name
+		FROM tb_user
+		WHERE USER_NICK =
+		#{user_nick} AND USER_MAIL
+		= #{user_mail}
+	</select>
+
+	<!-- 비번 찾기 -->
+	<select id="selectPw" parameterType="com.picstory.model.User"
+		resultType="com.picstory.model.User">
+		SELECT user_pw,user_name
+		FROM tb_user
+		WHERE USER_ID =
+		#{user_id} AND USER_MAIL
+		= #{user_mail}
+	</select>
 
 
 

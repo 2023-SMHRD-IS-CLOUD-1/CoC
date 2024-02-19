@@ -164,5 +164,23 @@ public class PicstoryController {
 		return storageS3Url;
 
 	}
+	
+	// 아이디 찾기
+		@PostMapping("/selectId")
+		public User selectId(@RequestBody User user) {
+			User info = picstoryService.selectId(user);
+			System.out.printf("받아온 아이디 - Controller : ", info);
+
+			return info;
+		}
+		
+		// pw 찾기
+		@PostMapping("/selectPw")
+		public User selectPw(@RequestBody User user) {
+			User info = picstoryService.selectPw(user);
+			System.out.printf("받아온 비번 - Controller : ", info);
+			
+			return info;
+		}
 
 }

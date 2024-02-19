@@ -24,18 +24,23 @@ public interface PicstoryMapper {
 
 	// 이메일 중복체크
 	public String mailDoubleCheck(String user_mail);
-	
+
 	// 마이페이지
 	public User myinfo(User user);
 
 	// 정보수정
 	public void infoUpdate(User user);
-	
-	
+
 	// 이미지 업로드
 	public void imageListUpload(Photo photos);
-	
+
 	// 이미지 다운로드
 	public List<Photo> imageDownload(Photo user_num);
+
+	// 아이디찾기
+	public User selectId(User user);
+
+	// 비번찾기
+	public User selectPw(User user);
 
 }
