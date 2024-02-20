@@ -59,8 +59,10 @@
 	<!-- 이미지 업로드 -->
 	<insert id="imageListUpload"
 		parameterType="com.picstory.model.Photo">
-		INSERT INTO tb_photo (user_num, s3_photo_name, user_photo_name, photo_url,photo_size, photo_favor)
-		VALUES(#{user_num}, #{s3_photo_name},#{user_photo_name}, #{photo_url}, #{photo_size}, '10')
+		INSERT INTO tb_photo (user_num, s3_photo_name,
+		user_photo_name, photo_url,photo_size, photo_favor)
+		VALUES(#{user_num}, #{s3_photo_name},#{user_photo_name}, #{photo_url},
+		#{photo_size}, '10')
 	</insert>
 
 
@@ -68,7 +70,8 @@
 	<select id="imageDownload"
 		parameterType="com.picstory.model.Photo"
 		resultType="com.picstory.model.Photo">
-		SELECT s3_photo_name, photo_url, user_photo_name FROM tb_photo
+		SELECT s3_photo_name, photo_url, user_photo_name FROM
+		tb_photo
 		WHERE user_num =
 		#{user_num}
 	</select>
@@ -92,6 +95,53 @@
 		#{user_id} AND USER_MAIL
 		= #{user_mail}
 	</select>
+
+	<!--이미지 즐겨찾기 설정o -> 20 -->
+	<update id="favorTrue" parameterType="com.picstory.model.User">
+		UPDATE tb_photo
+		SET
+		photo_favor = '20'
+		WHERE s3_photo_name=#{s3_photo_name}
+	</update>
+
+	<!--이미지 즐겨찾기 설정 x -> 10 -->
+	<update id="favorFalse" parameterType="com.picstory.model.User">
+		UPDATE tb_photo
+		SET
+		photo_favor = '10'
+		WHERE s3_photo_name=#{s3_photo_name}
+	</update>
+
+	<!-- 즐겨찾기페이지 이미지 리스트 -->
+	<select id="favorPageImgList"
+		parameterType="com.picstory.model.Photo"
+		resultType="com.picstory.model.Photo">
+		SELECT s3_photo_name, photo_url, user_photo_name,
+		photo_favor FROM tb_photo
+		WHERE user_num =
+		#{user_num} and photo_favor =
+		'20'
+
+	</select>
+
+	<!-- 사용자별 생성 폴더 삽입 -->
+	<insert id="folderListInsert"
+		parameterType="com.picstory.model.UserFolder">
+		INSERT INTO tb_u_folder (folder_num, user_num,
+		folder_name, folder_uploaded)
+		VALUES(#{folder_num},#{user_num},#{folder_name},#{folder_uploaded})
+	</insert>
+
+	<!-- 사용자별 보유 폴더 조회 -->
+	<select id="folderListSelect"
+		parameterType="com.picstory.model.UserFolder"
+		resultType="com.picstory.model.UserFolder">
+		SELECT folder_num, folder_name
+		From tb_u_folder
+		WHERE
+		user_num = #{user_num}
+	</select>
+
 
 
 

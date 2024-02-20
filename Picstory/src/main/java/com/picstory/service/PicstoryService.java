@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.picstory.mapper.PicstoryMapper;
 import com.picstory.model.Photo;
 import com.picstory.model.User;
+import com.picstory.model.UserFolder;
 
 @Service
 public class PicstoryService {
@@ -87,5 +88,35 @@ public class PicstoryService {
 
 		return info;
 	}
+	
+	// 이미지 즐겨찾기 o -> 20
+		public void favorTrue(Photo s3_photo_name) {
+			picstoryMapper.favorTrue(s3_photo_name);
+		}
 
-}
+		// 이미지 즐겨찾기 x -> 10
+		public void favorFalse(Photo s3_photo_name) {
+			picstoryMapper.favorFalse(s3_photo_name);
+
+		}
+
+		// 즐겨찾기 이미지 리스트
+		public List<Photo> favorPageImgList(Photo user_num) {
+			List<Photo> favorImgList = picstoryMapper.favorPageImgList(user_num);
+			return favorImgList;
+
+		}
+
+		// 사용자별 생성한 파일 삽입
+		public void folderListInsert(UserFolder userFolder) {
+			picstoryMapper.folderListInsert(userFolder);
+		}
+
+		// 사용자별 보유 폴더 조회
+		public List<UserFolder> folderListSelect(UserFolder userFolder) {
+			List<UserFolder> folderListSelect =  picstoryMapper.folderListSelect(userFolder);
+			return folderListSelect;
+		}
+
+	}
+

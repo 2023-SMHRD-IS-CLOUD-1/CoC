@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.picstory.model.Photo;
 import com.picstory.model.User;
+import com.picstory.model.UserFolder;
 
 @Mapper
 public interface PicstoryMapper {
@@ -42,5 +43,21 @@ public interface PicstoryMapper {
 
 	// 비번찾기
 	public User selectPw(User user);
+	
+
+	// 이미지 즐겨찾기 o -> 20 
+	public void favorTrue(Photo s3_photo_name);
+
+	// 이미지 즐겨찾기 x -> 10
+	public void favorFalse(Photo s3_photo_name);
+
+	// 즐겨찾기 이미지 리스트
+	public List<Photo> favorPageImgList(Photo user_num);
+
+	// 사용자별 생성 폴더 삽입
+	public void folderListInsert(UserFolder userFolder);
+
+	// 사용자별 보유 폴더 조회
+	public List<UserFolder> folderListSelect(UserFolder userFolder);
 
 }

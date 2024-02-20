@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.picstory.model.Photo;
 import com.picstory.model.User;
+import com.picstory.model.UserFolder;
 import com.picstory.service.PicstoryService;
 
 @RestController
@@ -186,8 +187,42 @@ public class PicstoryController {
 		public User selectPw(@RequestBody User user) {
 			User info = picstoryService.selectPw(user);
 			System.out.printf("받아온 비번 - Controller : ", info);
-			
 			return info;
 		}
+		
+		// 좋아요 true
+		@PostMapping("/favorTrue")
+		public String favorTrue(@RequestBody Photo s3_photo_name) {
+			System.out.println("favorTrue" + s3_photo_name);
+			picstoryService.favorTrue(s3_photo_name);
+			return "";
+		}
+		
+		// 좋아요 false
+		@PostMapping("/favorFalse")
+		public String favorFalse(@RequestBody Photo s3_photo_name) {
+			System.out.println("favorFalse" + s3_photo_name);
+			picstoryService.favorFalse(s3_photo_name);
+			return "";
+		}
+		
+		// 즐겨찾기 폴더
+		@PostMapping("/favorPageImgList")
+		public  List<Photo> favorPageImgList(@RequestBody Photo user_num) {
+			System.out.println(user_num);
+			List<Photo> favorImgList = picstoryService.favorPageImgList(user_num);
+			System.out.println("favorImgList" + favorImgList);
+			return favorImgList;
+		}
+		
+		// 사용자별로 생성된 폴더 삽입 후 폴더리스트 꺼내오기
+		@PostMapping("/folderList")
+		public  List<UserFolder> folderList(@RequestBody UserFolder userFolder) {
+			System.out.println(userFolder);
+			picstoryService.folderListInsert(userFolder);
+			List<UserFolder> folderListSelectRes = picstoryService.folderListSelect(userFolder);
+			return folderListSelectRes;
+		}
+		
 
 }
