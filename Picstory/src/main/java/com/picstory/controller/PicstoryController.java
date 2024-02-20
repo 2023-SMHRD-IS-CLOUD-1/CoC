@@ -215,11 +215,15 @@ public class PicstoryController {
 			return favorImgList;
 		}
 		
-		// 사용자별로 생성된 폴더 삽입 후 폴더리스트 꺼내오기
+		// 사용자별로 생성된 폴더 삽입 폴더리스트 꺼내오기
 		@PostMapping("/folderList")
-		public  List<UserFolder> folderList(@RequestBody UserFolder userFolder) {
+		public void folderList(@RequestBody UserFolder userFolder) {
 			System.out.println(userFolder);
 			picstoryService.folderListInsert(userFolder);
+		}
+		
+		@PostMapping("/folderListSelect")
+		public  List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
 			List<UserFolder> folderListSelectRes = picstoryService.folderListSelect(userFolder);
 			return folderListSelectRes;
 		}

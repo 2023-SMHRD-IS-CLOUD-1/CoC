@@ -127,9 +127,9 @@
 	<!-- 사용자별 생성 폴더 삽입 -->
 	<insert id="folderListInsert"
 		parameterType="com.picstory.model.UserFolder">
-		INSERT INTO tb_u_folder (folder_num, user_num,
-		folder_name, folder_uploaded)
-		VALUES(#{folder_num},#{user_num},#{folder_name},#{folder_uploaded})
+		INSERT INTO tb_u_folder (user_num,
+		folder_name)
+		VALUES(#{user_num},#{folder_name})
 	</insert>
 
 	<!-- 사용자별 보유 폴더 조회 -->
