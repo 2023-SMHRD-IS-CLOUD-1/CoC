@@ -140,6 +140,7 @@
 		From tb_u_folder
 		WHERE
 		user_num = #{user_num}
+		ORDER BY folder_uploaded
 	</select>
 
 
