@@ -4,10 +4,20 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.picstory.mapper.PicstoryMapper;
 import com.picstory.model.Photo;
+import com.picstory.model.PhotoTag;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
 
@@ -116,6 +126,87 @@ public class PicstoryService {
 		public List<UserFolder> folderListSelect(UserFolder userFolder) {
 			List<UserFolder> folderListSelect =  picstoryMapper.folderListSelect(userFolder);
 			return folderListSelect;
+		}
+		
+		public void url(Photo user_num) {
+			List<Photo> photoList = picstoryMapper.getPhotoInfo(user_num);
+			System.out.println("check1");
+			System.out.println(user_num);
+			System.out.println("check2");
+			System.out.println(photoList);
+			System.out.println("check3");
+			
+			
+			String[] data = new String[photoList.size()]; // 통신에 보낼 배열을 url 갯수와 크기를 동일하게 지정해 생성
+			for(int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
+				data[i] = photoList.get(i).getPhoto_url();
+			}
+			System.out.println(data);
+			System.out.println("check4");
+			System.out.println(data[0]);
+//	         플라스크 서버의 엔드포인트 URL
+	        String url = "http://172.30.1.72:4000/predict"; // 적절한 호스트와 포트를 사용해야 함
+
+	        // HttpClient 객체 생성
+	        HttpClient httpClient = HttpClientBuilder.create().build();
+
+	        // HTTP POST 요청 객체 생성
+	        HttpPost request = new HttpPost(url);
+
+	        // 배열을 JSON 형식으로 변환
+	        Gson gson = new Gson();
+	        String json = gson.toJson(data);
+
+	        // JSON 데이터를 StringEntity에 설정
+			try {
+				StringEntity params;
+				params = new StringEntity(json);
+				request.addHeader("content-type", "application/json");
+				request.setEntity(params);
+				// POST 요청 보내기
+				HttpResponse response = httpClient.execute(request);
+				
+				// 서버로부터 받은 응답 확인
+				String responseBody = EntityUtils.toString(response.getEntity());
+				System.out.println("Response from server: " + responseBody);
+
+				// JSON 문자열을 JsonObject로 파싱
+		        JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
+
+		        // tagList에 대한 JsonArray 가져오기
+		        JsonArray tagList = jsonObject.getAsJsonArray("tagList");
+
+		        // 이중 배열로 파싱
+		        String[][] doubleArray = new String[tagList.size()][];
+
+		        // 이중 배열로 변환
+		        for (int i = 0; i < tagList.size(); i++) {
+		            JsonArray innerArray = tagList.get(i).getAsJsonArray();
+		            doubleArray[i] = new String[innerArray.size()];
+
+		            for (int j = 0; j < innerArray.size(); j++) {
+		                doubleArray[i][j] = innerArray.get(j).getAsString();
+		            }
+		        }
+//			 이미지수만큼 반복
+				for(int i=0;i<doubleArray.length-1;i++) {
+					// 태그갯수만큼 반복
+					for(int j=0;j<doubleArray[i].length;j++) {
+						if(doubleArray[i][j].equals("yes")) {
+							PhotoTag photoTag = new PhotoTag();
+							photoTag.setPhoto_num(photoList.get(i).getPhoto_num());
+							photoTag.setTag_name(doubleArray[doubleArray.length-1][j]);
+							picstoryMapper.addTag(photoTag);
+						}
+					}
+				}
+			
+			
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 
 	}

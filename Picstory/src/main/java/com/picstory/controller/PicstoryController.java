@@ -228,5 +228,12 @@ public class PicstoryController {
 			return folderListSelectRes;
 		}
 		
+		// 정보수정
+		@PostMapping("/url")
+		public String url(@RequestBody Photo user_num) {
+			picstoryService.url(user_num);
+			System.out.println("urlurl" + user_num);
+			return "";
+		}
 
 }

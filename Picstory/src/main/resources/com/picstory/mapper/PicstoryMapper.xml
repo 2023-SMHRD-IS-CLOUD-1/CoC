@@ -143,7 +143,22 @@
 		ORDER BY folder_uploaded
 	</select>
 
-
+	<!-- 태그 추가 -->
+	<insert id="addTag"
+		parameterType="com.picstory.model.PhotoTag">
+		INSERT INTO tb_p_tag (photo_num, tag_name)
+		VALUES
+		(#{photo_num}, #{tag_name})
+	</insert>
+	
+	<!-- 사진 정보 전부 불러오기 -->
+	<select id="getPhotoInfo"
+		parameterType="com.picstory.model.Photo"
+		resultType="com.picstory.model.Photo">
+		SELECT * FROM tb_photo
+		WHERE user_num =
+		#{user_num}
+	</select>
 
 
 

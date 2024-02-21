@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.picstory.model.Photo;
+import com.picstory.model.PhotoTag;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
 
@@ -59,5 +60,11 @@ public interface PicstoryMapper {
 
 	// 사용자별 보유 폴더 조회
 	public List<UserFolder> folderListSelect(UserFolder userFolder);
+	
+	// 태그 추가
+	public void addTag(PhotoTag photoTag);
+
+	// user_num으로 사진 정보 전부 불러오기
+	public List<Photo> getPhotoInfo(Photo user_num);
 
 }
