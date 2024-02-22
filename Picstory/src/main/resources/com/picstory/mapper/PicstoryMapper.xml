@@ -44,7 +44,7 @@
 	<select id="myinfo" parameterType="com.picstory.model.User"
 		resultType="com.picstory.model.User">
 		SELECT * FROM TB_USER
-		WHERE USER_ID = #{user_id}
+		WHERE USER_num = #{user_num}
 	</select>
 
 	<!-- 정보수정 -->
