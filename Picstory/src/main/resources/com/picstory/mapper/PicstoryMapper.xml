@@ -175,6 +175,18 @@
 		where user_naver_id =
 		#{user_naver_id}
 	</select>
+	
+	<!-- 마이페이지 사진 수 -->
+	<select id="countPhoto" parameterType="com.picstory.model.User" resultType="Integer">
+		select count(photo_num) from tb_photo 
+		where user_num = #{user_num}
+	</select>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="deleteUser" parameterType="com.picstory.model.User">
+		delete from tb_user
+		where user_num = #{user_num}
+	</delete>
 
 
 
