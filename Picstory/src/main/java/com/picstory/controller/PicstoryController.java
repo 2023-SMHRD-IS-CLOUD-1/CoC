@@ -222,18 +222,29 @@ public class PicstoryController {
 			picstoryService.folderListInsert(userFolder);
 		}
 		
+		
 		@PostMapping("/folderListSelect")
-		public  List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
+		public List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
 			List<UserFolder> folderListSelectRes = picstoryService.folderListSelect(userFolder);
 			return folderListSelectRes;
 		}
-		
 		// 정보수정
 		@PostMapping("/url")
 		public String url(@RequestBody Photo user_num) {
 			picstoryService.url(user_num);
 			System.out.println("urlurl" + user_num);
 			return "";
+		}
+		
+		// naver 로그인
+		@PostMapping("/naverJoin")
+		public Integer naverJoin(@RequestBody User userNaver) {
+		    Integer user_num_naver = picstoryService.naverSelect(userNaver);
+		    if (user_num_naver == null || user_num_naver == 0) {
+		        picstoryService.naverJoin(userNaver);
+		    }
+
+		    return user_num_naver;
 		}
 
 }

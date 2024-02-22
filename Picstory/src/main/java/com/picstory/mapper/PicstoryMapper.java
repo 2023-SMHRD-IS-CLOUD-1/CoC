@@ -66,5 +66,12 @@ public interface PicstoryMapper {
 
 	// user_num으로 사진 정보 전부 불러오기
 	public List<Photo> getPhotoInfo(Photo user_num);
+	
+	// 네이버로 첫 로그인 -> db insert
+	public void naverJoin(User userNaver);
+
+	// 네이버 로그인 -> db 조회
+	public Integer naverSelect(User userNaver);
+
 
 }

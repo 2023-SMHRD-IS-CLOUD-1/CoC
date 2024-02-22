@@ -208,6 +208,20 @@ public class PicstoryService {
 			}
 
 		}
+		
+		// 네이버 첫 로그인 -> db 삽입
+		public void naverJoin(User userNaver) {
+			picstoryMapper.naverJoin(userNaver);
+		}
+
+		// 네이버 로그인 -> db 조회
+		public Integer naverSelect(User userNaver) {
+			
+			Integer user_num_naver = picstoryMapper.naverSelect(userNaver);
+			return user_num_naver;
+			
+			
+		}
 
 	}
 
