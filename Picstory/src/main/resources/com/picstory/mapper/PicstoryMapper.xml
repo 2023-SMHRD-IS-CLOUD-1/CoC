@@ -44,7 +44,7 @@
 	<select id="myinfo" parameterType="com.picstory.model.User"
 		resultType="com.picstory.model.User">
 		SELECT * FROM TB_USER
-		WHERE USER_ID = #{user_id}
+		WHERE user_num = #{user_num}
 	</select>
 
 	<!-- 정보수정 -->
@@ -143,9 +143,68 @@
 		ORDER BY folder_uploaded
 	</select>
 
+	<!-- 태그 추가 -->
+	<insert id="addTag"
+		parameterType="com.picstory.model.PhotoTag">
+		INSERT INTO tb_p_tag (photo_num, tag_name)
+		VALUES
+		(#{photo_num}, #{tag_name})
+	</insert>
+	
+	<!-- 태그 추가 (태그 추가됐을 때)-->
+	<insert id="setTag"
+		parameterType="com.picstory.model.PhotoTag">
+		INSERT INTO tb_p_tag (photo_num, tag_name)
+		VALUES
+		(#{photo_num}, #{tag_name})
+	</insert>
+	
+	<!-- 이미지 태깅 - url로 photo_num조회 -->
+	<select id="getPhotoNum"
+		resultType="com.picstory.model.Photo">
+		SELECT photo_num FROM
+		tb_photo
+		WHERE photo_url =
+		#{photo_url}
+	</select>
+	
+	
+	<!-- 사진 정보 전부 불러오기 -->
+	<select id="getPhotoInfo"
+		parameterType="com.picstory.model.Photo"
+		resultType="com.picstory.model.Photo">
+		SELECT * FROM tb_photo
+		WHERE user_num =
+		#{user_num}
+	</select>
 
 
+	<!-- 네이버 첫 로그인 -->
+	<insert id="naverJoin" parameterType="com.picstory.model.User">
+		insert into
+		tb_user(user_naver_id)
+		values(#{user_naver_id})
+	</insert>
 
+	<!-- 네이버 로그인  -->
+	<select id="naverSelect" parameterType="com.picstory.model.User"
+		resultType="Integer">
+		select user_num from tb_user
+		where user_naver_id =
+		#{user_naver_id}
+	</select>
+	
+	<!-- 마이페이지 사진 수 -->
+	<select id="countPhoto" parameterType="com.picstory.model.User" resultType="Integer">
+		select count(photo_num) from tb_photo 
+		where user_num = #{user_num}
+	</select>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="deleteUser" parameterType="com.picstory.model.User">
+		delete from tb_user
+		where user_num = #{user_num}
+	</delete>
 
 
 </mapper>

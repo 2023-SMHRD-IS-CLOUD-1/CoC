@@ -16,5 +16,6 @@ public class User {
 	private String user_mail;
 	private String user_joined;
 	private String user_premium;
+	private String user_naver_id;
 
 }

@@ -1,6 +1,9 @@
 package com.picstory.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -80,9 +83,15 @@ public class PicstoryController {
 
 	// 마이페이지
 	@PostMapping("/myinfo")
-	public User myinfo(@RequestBody User user) {
+	public Map<String, Object> myinfo(@RequestBody User user) {
+		Map<String, Object> response = new HashMap<>();
 		User myinfo = picstoryService.myinfo(user);
-		return myinfo;
+		Integer countPhoto = picstoryService.countPhoto(user);
+		
+		response.put("myinfo", myinfo);
+		response.put("countPhoto", countPhoto);
+		
+		return response;
 	}
 
 	// 정보수정
@@ -103,7 +112,9 @@ public class PicstoryController {
 				String[] photoUrlsArray = data.getPhoto_url().split(",");
 				String[] photoSizesArray = data.getPhoto_size().split(",");
 				String[] userPhotoNameArray = data.getUser_photo_name().split(",");
-
+				
+				// 이미지 업로드할 때 태깅
+				List<Photo> photoList = new ArrayList<Photo>();
 				if (data.getLength() == 1) {
 					for (int i = 0; i < data.getLength(); i++) {
 
@@ -128,6 +139,12 @@ public class PicstoryController {
 						photo.setPhoto_size(photoSizesArray[j]);
 						photo.setUser_photo_name(userPhotoNameArray[j]);
 						picstoryService.imageListUpload(photo);
+						
+						// 이미지 업로드할 때 태깅
+						Photo photoTmp = new Photo();
+						photoTmp.setPhoto_url(photoUrlsArray[j]);
+						photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
+						photoList.add(photoTmp);
 					}
 
 				} else {
@@ -156,7 +173,9 @@ public class PicstoryController {
 						picstoryService.imageListUpload(photo);
 					}
 				}
-
+				// 이미지 업로드할 때 태깅
+				picstoryService.url(photoList,"");
+				
 				return ResponseEntity.ok("File upload successful");
 			} catch (Exception e) {
 				// 오류가 발생했다면 500 Internal Server Error 응답 반환
@@ -222,11 +241,29 @@ public class PicstoryController {
 			picstoryService.folderListInsert(userFolder);
 		}
 		
+		
 		@PostMapping("/folderListSelect")
-		public  List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
+		public List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
 			List<UserFolder> folderListSelectRes = picstoryService.folderListSelect(userFolder);
 			return folderListSelectRes;
 		}
+
 		
+		// naver 로그인
+		@PostMapping("/naverJoin")
+		public Integer naverJoin(@RequestBody User userNaver) {
+		    Integer user_num_naver = picstoryService.naverSelect(userNaver);
+		    if (user_num_naver == null || user_num_naver == 0) {
+		        picstoryService.naverJoin(userNaver);
+		    }
+
+		    return user_num_naver;
+		}
+		
+		// 회원탈퇴
+		@PostMapping("/deleteUser")
+		public void deleteUser(@RequestBody User user) {
+			picstoryService.deleteUser(user);
+		}
 
 }
