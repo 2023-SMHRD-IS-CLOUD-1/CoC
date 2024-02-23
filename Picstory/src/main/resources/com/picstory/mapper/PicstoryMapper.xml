@@ -151,6 +151,24 @@
 		(#{photo_num}, #{tag_name})
 	</insert>
 	
+	<!-- 태그 추가 (태그 추가됐을 때)-->
+	<insert id="setTag"
+		parameterType="com.picstory.model.PhotoTag">
+		INSERT INTO tb_p_tag (photo_num, tag_name)
+		VALUES
+		(#{photo_num}, #{tag_name})
+	</insert>
+	
+	<!-- 이미지 태깅 - url로 photo_num조회 -->
+	<select id="getPhotoNum"
+		resultType="com.picstory.model.Photo">
+		SELECT photo_num FROM
+		tb_photo
+		WHERE photo_url =
+		#{photo_url}
+	</select>
+	
+	
 	<!-- 사진 정보 전부 불러오기 -->
 	<select id="getPhotoInfo"
 		parameterType="com.picstory.model.Photo"
