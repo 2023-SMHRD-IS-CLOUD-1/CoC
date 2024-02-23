@@ -75,6 +75,12 @@ public interface PicstoryMapper {
 
 	// 네이버 로그인 -> db 조회
 	public Integer naverSelect(User userNaver);
+	
+	// 마이페이지 사진 수
+	public Integer countPhoto(User user);
+
+	// 회원탈퇴
+	public void deleteUser(User user);
 
 
 }

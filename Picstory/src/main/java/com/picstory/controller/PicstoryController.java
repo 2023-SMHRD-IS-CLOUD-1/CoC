@@ -1,7 +1,9 @@
 package com.picstory.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -81,9 +83,15 @@ public class PicstoryController {
 
 	// 마이페이지
 	@PostMapping("/myinfo")
-	public User myinfo(@RequestBody User user) {
+	public Map<String, Object> myinfo(@RequestBody User user) {
+		Map<String, Object> response = new HashMap<>();
 		User myinfo = picstoryService.myinfo(user);
-		return myinfo;
+		Integer countPhoto = picstoryService.countPhoto(user);
+		
+		response.put("myinfo", myinfo);
+		response.put("countPhoto", countPhoto);
+		
+		return response;
 	}
 
 	// 정보수정
@@ -250,6 +258,12 @@ public class PicstoryController {
 		    }
 
 		    return user_num_naver;
+		}
+		
+		// 회원탈퇴
+		@PostMapping("/deleteUser")
+		public void deleteUser(@RequestBody User user) {
+			picstoryService.deleteUser(user);
 		}
 
 }

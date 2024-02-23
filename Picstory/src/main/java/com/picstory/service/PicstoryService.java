@@ -231,6 +231,19 @@ public class PicstoryService {
 			
 			
 		}
+		
+		// 마이페이지 사진 수
+		public Integer countPhoto(User user) {
+			Integer countPhoto = picstoryMapper.countPhoto(user);
+			System.out.println("사진 수 : " + countPhoto);
+			return countPhoto;
+		}
+		
+		// 회원탈퇴
+		public void deleteUser(User user) {
+			picstoryMapper.deleteUser(user);
+			
+		}
 
 	}
 
