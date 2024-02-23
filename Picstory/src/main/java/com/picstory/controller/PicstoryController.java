@@ -265,5 +265,19 @@ public class PicstoryController {
 		public void deleteUser(@RequestBody User user) {
 			picstoryService.deleteUser(user);
 		}
-
+		
+		// 사용자 폴더 이름 변경
+		@PostMapping("/updateFolderName")
+		public void updateFolderName(@RequestBody UserFolder userFolder) {
+			picstoryService.updateFolderName(userFolder);
+		}
+		
+		// 사용자 폴더 삭제
+		@PostMapping("/deleteFolder")
+		public String deleteFolder(@RequestBody UserFolder userFolder) {
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@" + userFolder);
+			picstoryService.deleteFolder(userFolder);
+			
+			return "success";
+		}
 }

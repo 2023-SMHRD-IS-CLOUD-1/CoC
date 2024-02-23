@@ -205,6 +205,18 @@
 		delete from tb_user
 		where user_num = #{user_num}
 	</delete>
-
+	
+	<!-- 폴더 이름 변경 -->
+	<update id="updateFolderName" parameterType="com.picstory.model.UserFolder">
+		UPDATE tb_u_folder
+		SET FOLDER_NAME = #{folder_name}
+		WHERE FOLDER_NUM = #{folder_num}
+	</update>
+	
+	<!-- 폴더 삭제 -->
+	<delete id="deleteFolder" parameterType="com.picstory.model.UserFolder">
+		DELETE FROM tb_u_folder
+		WHERE folder_name = #{folder_name} AND folder_num = #{folder_num}
+	</delete>
 
 </mapper>

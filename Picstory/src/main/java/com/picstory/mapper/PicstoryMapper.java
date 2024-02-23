@@ -81,6 +81,11 @@ public interface PicstoryMapper {
 
 	// 회원탈퇴
 	public void deleteUser(User user);
+	
+	// 폴더 이름 변경
+	public void updateFolderName(UserFolder userFolder);
 
+	// 폴더 삭제
+	public void deleteFolder(UserFolder userFolder);
 
 }

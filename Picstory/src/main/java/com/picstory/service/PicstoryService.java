@@ -244,6 +244,17 @@ public class PicstoryService {
 			picstoryMapper.deleteUser(user);
 			
 		}
+		
+		// 폴더 이름 변경
+		public void updateFolderName(UserFolder userFolder) {
+			picstoryMapper.updateFolderName(userFolder);
+		}
 
+		// 폴더 삭제
+		public void deleteFolder(UserFolder userFolder) {
+			picstoryMapper.deleteFolder(userFolder);
+			
+		}
+		
 	}
 
