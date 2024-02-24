@@ -87,10 +87,10 @@ public class PicstoryController {
 		Map<String, Object> response = new HashMap<>();
 		User myinfo = picstoryService.myinfo(user);
 		Integer countPhoto = picstoryService.countPhoto(user);
-		
+
 		response.put("myinfo", myinfo);
 		response.put("countPhoto", countPhoto);
-		
+
 		return response;
 	}
 
@@ -103,181 +103,188 @@ public class PicstoryController {
 	}
 
 	// 이미지 업로드
-		@PostMapping("/imageUpload")
-		public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
-			try {
-				System.out.println(data);
+	@PostMapping("/imageUpload")
+	public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
+		try {
+			System.out.println("컨트롤러에서 받은 : " + data);
 
-				String[] photoNameArray = data.getS3_photo_name().split(",");
-				String[] photoUrlsArray = data.getPhoto_url().split(",");
-				String[] photoSizesArray = data.getPhoto_size().split(",");
-				String[] userPhotoNameArray = data.getUser_photo_name().split(",");
-				
-				// 이미지 업로드할 때 태깅
-				List<Photo> photoList = new ArrayList<Photo>();
-				if (data.getLength() == 1) {
-					for (int i = 0; i < data.getLength(); i++) {
+			String[] photoNameArray = data.getS3_photo_name().split(",");
+			String[] photoUrlsArray = data.getPhoto_url().split(",");
+			String[] photoSizesArray = data.getPhoto_size().split(",");
+			String[] userPhotoNameArray = data.getUser_photo_name().split(",");
 
-						for (int j = 0; j < photoNameArray.length; j++) {
-							photoNameArray[j] = photoNameArray[j].replace("[", "");
-							photoNameArray[j] = photoNameArray[j].replace("]", "");
-							photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
-							photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
-							photoSizesArray[j] = photoSizesArray[j].replace("[", "");
-							photoSizesArray[j] = photoSizesArray[j].replace("]", "");
-							userPhotoNameArray[j] = userPhotoNameArray[j].replace("[", "");
-							userPhotoNameArray[j] = userPhotoNameArray[j].replace("]", "");
-						}
+			// 이미지 업로드할 때 태깅
+			List<Photo> photoList = new ArrayList<Photo>();
+			if (data.getLength() == 1) {
+				System.out.println("이미지 1개에여");
+				for (int i = 0; i < data.getLength(); i++) {
 
-					}
-
-					for (int j = 0; j < photoUrlsArray.length; j++) {
-						Photo photo = new Photo();
-						photo.setUser_num(data.getUser_num());
-						photo.setS3_photo_name(photoNameArray[j]);
-						photo.setPhoto_url(photoUrlsArray[j]);
-						photo.setPhoto_size(photoSizesArray[j]);
-						photo.setUser_photo_name(userPhotoNameArray[j]);
-						picstoryService.imageListUpload(photo);
-						
-						// 이미지 업로드할 때 태깅
-						Photo photoTmp = new Photo();
-						photoTmp.setPhoto_url(photoUrlsArray[j]);
-						photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
-						photoList.add(photoTmp);
-					}
-
-				} else {
-					for (int i = 0; i < data.getLength() + 1; i++) {
-
-						for (int j = 0; j <= photoNameArray.length - 1; j++) {
-							photoNameArray[j] = photoNameArray[j].replace("[", "");
-							photoNameArray[j] = photoNameArray[j].replace("]", "");
-							photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
-							photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
-							photoSizesArray[j] = photoSizesArray[j].replace("[", "");
-							photoSizesArray[j] = photoSizesArray[j].replace("]", "");
-							userPhotoNameArray[j] = userPhotoNameArray[j].replace("[", "");
-							userPhotoNameArray[j] = userPhotoNameArray[j].replace("]", "");
-						}
-
-					}
-
-					for (int j = 0; j <= photoUrlsArray.length - 1; j++) {
-						Photo photo = new Photo();
-						photo.setUser_num(data.getUser_num());
-						photo.setS3_photo_name(photoNameArray[j]);
-						photo.setPhoto_url(photoUrlsArray[j]);
-						photo.setPhoto_size(photoSizesArray[j]);
-						photo.setUser_photo_name(userPhotoNameArray[j]);
-						picstoryService.imageListUpload(photo);
+					for (int j = 0; j < photoNameArray.length; j++) {
+						photoNameArray[j] = photoNameArray[j].replace("[", "");
+						photoNameArray[j] = photoNameArray[j].replace("]", "");
+						photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
+						photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
+						photoSizesArray[j] = photoSizesArray[j].replace("[", "");
+						photoSizesArray[j] = photoSizesArray[j].replace("]", "");
+						userPhotoNameArray[j] = userPhotoNameArray[j].replace("[", "");
+						userPhotoNameArray[j] = userPhotoNameArray[j].replace("]", "");
 					}
 				}
-				// 이미지 업로드할 때 태깅
-				picstoryService.url(photoList,"");
-				
-				return ResponseEntity.ok("File upload successful");
-			} catch (Exception e) {
-				// 오류가 발생했다면 500 Internal Server Error 응답 반환
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
+
+				for (int j = 0; j < photoUrlsArray.length; j++) {
+					Photo photo = new Photo();
+					photo.setUser_num(data.getUser_num());
+					photo.setS3_photo_name(photoNameArray[j]);
+					photo.setPhoto_url(photoUrlsArray[j]);
+					photo.setPhoto_size(photoSizesArray[j]);
+					photo.setUser_photo_name(userPhotoNameArray[j]);
+					picstoryService.imageListUpload(photo);
+
+					// 이미지 업로드할 때 태깅
+					Photo photoTmp = new Photo();
+					photoTmp.setPhoto_url(photoUrlsArray[j]);
+					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
+					photoList.add(photoTmp);
+				}
+
+			} else {
+				System.out.println("이미지 여러개에여");
+				for (int i = 0; i < data.getLength(); i++) {
+
+					for (int j = 0; j < photoNameArray.length; j++) {
+						photoNameArray[j] = photoNameArray[j].replace("[", "");
+						photoNameArray[j] = photoNameArray[j].replace("]", "");
+						photoUrlsArray[j] = photoUrlsArray[j].replace("[", "");
+						photoUrlsArray[j] = photoUrlsArray[j].replace("]", "");
+						photoSizesArray[j] = photoSizesArray[j].replace("[", "");
+						photoSizesArray[j] = photoSizesArray[j].replace("]", "");
+						userPhotoNameArray[j] = userPhotoNameArray[j].replace("[", "");
+						userPhotoNameArray[j] = userPhotoNameArray[j].replace("]", "");
+					}
+					Photo photo = new Photo();
+					photo.setUser_num(data.getUser_num());
+					photo.setS3_photo_name(photoNameArray[i]);
+					photo.setPhoto_url(photoUrlsArray[i]);
+					photo.setPhoto_size(photoSizesArray[i]);
+					photo.setUser_photo_name(userPhotoNameArray[i]);
+					picstoryService.imageListUpload(photo);
+
+					// 이미지 업로드할 때 태깅
+					Photo photoTmp = new Photo();
+					photoTmp.setPhoto_url(photoUrlsArray[i]);
+					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
+					photoList.add(photoTmp);
+				}
 			}
-		}
-		
-		// 이미지 다운로드
-		@PostMapping("/imageDownload")
-		public List<Photo> imageDownload(@RequestBody Photo user_num) {
-			
-			List<Photo> storageS3Url = picstoryService.imageDownload(user_num);
-			return storageS3Url;
+			System.out.println("서비스 가기 전 : " + photoList);
+			// 이미지 업로드할 때 태깅
+			picstoryService.url(photoList, "");
+			// 이미지 업로드할 때 특징벡터
+			String responseBody = picstoryService.urlVector(photoList, "");
 
+			// return ResponseEntity.ok("File upload successful");
+			return ResponseEntity.ok(responseBody);
+
+		} catch (Exception e) {
+			// 오류가 발생했다면 500 Internal Server Error 응답 반환
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
 		}
+	}
+
+	// 이미지 다운로드
+	@PostMapping("/imageDownload")
+	public List<Photo> imageDownload(@RequestBody Photo user_num) {
+
+		List<Photo> storageS3Url = picstoryService.imageDownload(user_num);
+		return storageS3Url;
+
+	}
+
 	// 아이디 찾기
-		@PostMapping("/selectId")
-		public User selectId(@RequestBody User user) {
-			User info = picstoryService.selectId(user);
-			System.out.printf("받아온 아이디 - Controller : ", info);
+	@PostMapping("/selectId")
+	public User selectId(@RequestBody User user) {
+		User info = picstoryService.selectId(user);
+		System.out.printf("받아온 아이디 - Controller : ", info);
 
-			return info;
-		}
-		
-		// pw 찾기
-		@PostMapping("/selectPw")
-		public User selectPw(@RequestBody User user) {
-			User info = picstoryService.selectPw(user);
-			System.out.printf("받아온 비번 - Controller : ", info);
-			return info;
-		}
-		
-		// 좋아요 true
-		@PostMapping("/favorTrue")
-		public String favorTrue(@RequestBody Photo s3_photo_name) {
-			System.out.println("favorTrue" + s3_photo_name);
-			picstoryService.favorTrue(s3_photo_name);
-			return "";
-		}
-		
-		// 좋아요 false
-		@PostMapping("/favorFalse")
-		public String favorFalse(@RequestBody Photo s3_photo_name) {
-			System.out.println("favorFalse" + s3_photo_name);
-			picstoryService.favorFalse(s3_photo_name);
-			return "";
-		}
-		
-		// 즐겨찾기 폴더
-		@PostMapping("/favorPageImgList")
-		public  List<Photo> favorPageImgList(@RequestBody Photo user_num) {
-			System.out.println(user_num);
-			List<Photo> favorImgList = picstoryService.favorPageImgList(user_num);
-			System.out.println("favorImgList" + favorImgList);
-			return favorImgList;
-		}
-		
-		// 사용자별로 생성된 폴더 삽입 폴더리스트 꺼내오기
-		@PostMapping("/folderList")
-		public void folderList(@RequestBody UserFolder userFolder) {
-			System.out.println(userFolder);
-			picstoryService.folderListInsert(userFolder);
-		}
-		
-		
-		@PostMapping("/folderListSelect")
-		public List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
-			List<UserFolder> folderListSelectRes = picstoryService.folderListSelect(userFolder);
-			return folderListSelectRes;
+		return info;
+	}
+
+	// pw 찾기
+	@PostMapping("/selectPw")
+	public User selectPw(@RequestBody User user) {
+		User info = picstoryService.selectPw(user);
+		System.out.printf("받아온 비번 - Controller : ", info);
+		return info;
+	}
+
+	// 좋아요 true
+	@PostMapping("/favorTrue")
+	public String favorTrue(@RequestBody Photo s3_photo_name) {
+		System.out.println("favorTrue" + s3_photo_name);
+		picstoryService.favorTrue(s3_photo_name);
+		return "";
+	}
+
+	// 좋아요 false
+	@PostMapping("/favorFalse")
+	public String favorFalse(@RequestBody Photo s3_photo_name) {
+		System.out.println("favorFalse" + s3_photo_name);
+		picstoryService.favorFalse(s3_photo_name);
+		return "";
+	}
+
+	// 즐겨찾기 폴더
+	@PostMapping("/favorPageImgList")
+	public List<Photo> favorPageImgList(@RequestBody Photo user_num) {
+		System.out.println(user_num);
+		List<Photo> favorImgList = picstoryService.favorPageImgList(user_num);
+		System.out.println("favorImgList" + favorImgList);
+		return favorImgList;
+	}
+
+	// 사용자별로 생성된 폴더 삽입 폴더리스트 꺼내오기
+	@PostMapping("/folderList")
+	public void folderList(@RequestBody UserFolder userFolder) {
+		System.out.println(userFolder);
+		picstoryService.folderListInsert(userFolder);
+	}
+
+	@PostMapping("/folderListSelect")
+	public List<UserFolder> folderListSelect(@RequestBody UserFolder userFolder) {
+		List<UserFolder> folderListSelectRes = picstoryService.folderListSelect(userFolder);
+		return folderListSelectRes;
+	}
+
+	// naver 로그인
+	@PostMapping("/naverJoin")
+	public Integer naverJoin(@RequestBody User userNaver) {
+		Integer user_num_naver = picstoryService.naverSelect(userNaver);
+		if (user_num_naver == null || user_num_naver == 0) {
+			picstoryService.naverJoin(userNaver);
 		}
 
-		
-		// naver 로그인
-		@PostMapping("/naverJoin")
-		public Integer naverJoin(@RequestBody User userNaver) {
-		    Integer user_num_naver = picstoryService.naverSelect(userNaver);
-		    if (user_num_naver == null || user_num_naver == 0) {
-		        picstoryService.naverJoin(userNaver);
-		    }
+		return user_num_naver;
+	}
 
-		    return user_num_naver;
-		}
-		
-		// 회원탈퇴
-		@PostMapping("/deleteUser")
-		public void deleteUser(@RequestBody User user) {
-			picstoryService.deleteUser(user);
-		}
-		
-		// 사용자 폴더 이름 변경
-		@PostMapping("/updateFolderName")
-		public void updateFolderName(@RequestBody UserFolder userFolder) {
-			picstoryService.updateFolderName(userFolder);
-		}
-		
-		// 사용자 폴더 삭제
-		@PostMapping("/deleteFolder")
-		public String deleteFolder(@RequestBody UserFolder userFolder) {
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@" + userFolder);
-			picstoryService.deleteFolder(userFolder);
-			
-			return "success";
-		}
+	// 회원탈퇴
+	@PostMapping("/deleteUser")
+	public void deleteUser(@RequestBody User user) {
+		picstoryService.deleteUser(user);
+	}
+
+	// 사용자 폴더 이름 변경
+	@PostMapping("/updateFolderName")
+	public void updateFolderName(@RequestBody UserFolder userFolder) {
+		picstoryService.updateFolderName(userFolder);
+	}
+
+	// 사용자 폴더 삭제
+	@PostMapping("/deleteFolder")
+	public String deleteFolder(@RequestBody UserFolder userFolder) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@" + userFolder);
+		picstoryService.deleteFolder(userFolder);
+
+		return "success";
+	}
 }
