@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.picstory.model.Photo;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
+import com.picstory.model.UserTag;
 import com.picstory.service.PicstoryService;
 
 @RestController
@@ -104,7 +105,8 @@ public class PicstoryController {
 
 	// 이미지 업로드
 	@PostMapping("/imageUpload")
-	public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
+//	public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
+	public void imageUpload(@RequestBody Photo data) {
 		try {
 			System.out.println("컨트롤러에서 받은 : " + data);
 
@@ -143,6 +145,7 @@ public class PicstoryController {
 					// 이미지 업로드할 때 태깅
 					Photo photoTmp = new Photo();
 					photoTmp.setPhoto_url(photoUrlsArray[j]);
+					photoTmp.setUser_num(data.getUser_num());
 					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
 					photoList.add(photoTmp);
 				}
@@ -173,22 +176,23 @@ public class PicstoryController {
 					Photo photoTmp = new Photo();
 					photoTmp.setPhoto_url(photoUrlsArray[i]);
 					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
+					photoTmp.setUser_num(data.getUser_num());
 					photoList.add(photoTmp);
 				}
 			}
 			System.out.println("서비스 가기 전 : " + photoList);
 			// 이미지 업로드할 때 태깅
-			picstoryService.url(photoList, "");
+			picstoryService.setTag(photoList);
 			// 이미지 업로드할 때 특징벡터
-			String responseBody = picstoryService.urlVector(photoList, "");
+//			String responseBody = picstoryService.urlVector(photoList, "");
 
 			// return ResponseEntity.ok("File upload successful");
-			return ResponseEntity.ok(responseBody);
+//			return ResponseEntity.ok(responseBody);
 
 		} catch (Exception e) {
 			// 오류가 발생했다면 500 Internal Server Error 응답 반환
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
 		}
 	}
 
@@ -286,5 +290,12 @@ public class PicstoryController {
 		picstoryService.deleteFolder(userFolder);
 
 		return "success";
+	}
+	
+	// 태그 생성
+	@PostMapping("/createTag")
+	public void createTag(@RequestBody UserTag tag) {
+		System.out.println("sasdfsaaasdf");
+		picstoryService.createTag(tag);
 	}
 }
