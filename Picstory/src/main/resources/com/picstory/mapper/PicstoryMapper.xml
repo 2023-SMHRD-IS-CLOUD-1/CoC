@@ -8,6 +8,13 @@
 		WHERE USER_ID = #{user_id} AND USER_PW
 		= #{user_pw}
 	</select>
+	
+		<select id="loginEncodePwSelect"
+		parameterType="com.picstory.model.User"
+		resultType="com.picstory.model.User">
+		SELECT * FROM tb_user
+		where user_id = #{user_id}
+	</select>
 
 	<!-- 결제완료 -->
 	<select id="payment" parameterType="com.picstory.model.User"
@@ -79,7 +86,7 @@
 	<select id="imageDownload"
 		parameterType="com.picstory.model.Photo"
 		resultType="com.picstory.model.Photo">
-		SELECT s3_photo_name, photo_url, user_photo_name FROM
+		SELECT* FROM
 		tb_photo
 		WHERE user_num =
 		#{user_num}

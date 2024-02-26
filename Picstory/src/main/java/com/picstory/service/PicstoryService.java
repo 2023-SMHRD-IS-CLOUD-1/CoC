@@ -40,6 +40,12 @@ public class PicstoryService {
 		return loginInfo;
 
 	}
+	
+	public User loginEncodePwSelect(User user) {
+		User userEncode = picstoryMapper.loginEncodePwSelect(user);
+		return userEncode;
+		
+	}
 
 	// 회원가입
 	public void memberJoin(User user) {

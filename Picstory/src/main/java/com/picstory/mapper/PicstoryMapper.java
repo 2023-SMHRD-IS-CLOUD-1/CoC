@@ -123,5 +123,7 @@ public interface PicstoryMapper {
 	 
 	// 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기
 	public int savePhotoInFolder(UserFolderPhoto listint );
+	
+	public User loginEncodePwSelect(User user);
 
 }

@@ -7,8 +7,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,9 @@ import com.picstory.service.PicstoryService;
 @RestController
 public class PicstoryController {
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Resource
 	private PicstoryService picstoryService;
 
@@ -32,13 +37,15 @@ public class PicstoryController {
 	@PostMapping("/login")
 	public User login(@RequestBody User user) {
 
-		User loginInfo = picstoryService.login(user);
-		if (loginInfo != null) {
-			return loginInfo;
+		// 요청 값 user를 통해 사용자 로그인 정보 조회하기
+		User encodeInfo = picstoryService.loginEncodePwSelect(user);
+		System.out.println(encodeInfo);
+
+		if (encodeInfo != null && passwordEncoder.matches(user.getUser_pw(), encodeInfo.getUser_pw())) {
+			return encodeInfo;
 		} else {
 			return null;
 		}
-
 	}
 
 	// 결제완료시 premium 변경
@@ -52,6 +59,7 @@ public class PicstoryController {
 	// 회원가입
 	@PostMapping("/joinIn")
 	public String memberJoin(@RequestBody User user) {
+		user.incode(user.getUser_pw());
 		picstoryService.memberJoin(user);
 		System.out.println("회원가입 데이터 수집 : " + user);
 		return "";
@@ -312,7 +320,7 @@ public class PicstoryController {
 		String[] result = picstoryService.getCustomTag(user);
 		return result;
 	}
-	
+
 	// 사용자 프리미엄 여부 불러오기
 	@PostMapping("/selectUserPremium")
 	public User selectUserPremium(@RequestBody User user) {
@@ -337,38 +345,38 @@ public class PicstoryController {
 		List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
 		return storageS3Url;
 	}
- 
+
 	// 체크한 사진들 식별번호 가져오기
-		@PostMapping("/loadSelectedPhotoNum")
-		public List<Integer> loadSelectedPhotoNum(@RequestBody List<String> s3photoname) {
-			
-			if (s3photoname.isEmpty()) {
-				return null;
-			}else {
-				List<Integer> photo_num = picstoryService.loadSelectedPhotoNum(s3photoname);
-				return photo_num; 
-			}
-		} 
-	// 체크한 사진 삭제하기 
+	@PostMapping("/loadSelectedPhotoNum")
+	public List<Integer> loadSelectedPhotoNum(@RequestBody List<String> s3photoname) {
+
+		if (s3photoname.isEmpty()) {
+			return null;
+		} else {
+			List<Integer> photo_num = picstoryService.loadSelectedPhotoNum(s3photoname);
+			return photo_num;
+		}
+	}
+
+	// 체크한 사진 삭제하기
 	@PostMapping("/deleteChckedPhoto")
-	public void deleteChckedPhoto(@RequestBody List<Integer> photoNum) { 
+	public void deleteChckedPhoto(@RequestBody List<Integer> photoNum) {
 		System.out.println(photoNum + "$$$$#$#$#$#$#$#$#$$#");
 		picstoryService.deleteChckedPhoto(photoNum);
 	}
-	  
+
 	// 폴더에 사진 담기 위해 폴더 식별번호 가져오기
 	@PostMapping("/addPhotoToFolder")
 	public UserFolderPhoto addPhotoToFolder(@RequestBody UserFolder userFolder) {
 		UserFolderPhoto folder_num = picstoryService.addPhotoToFolder(userFolder);
 		return folder_num;
 	}
-	 
+
 	// 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기
 	@PostMapping("/savePhotoInFolder")
-    public int savePhotoInFolder(@RequestBody UserFolderPhoto data) {
-        int result = picstoryService.savePhotoInFolder(data.getPhoto_nums(), data.getFolder_num());
-         
-         
-        return result; // 어떤 결과를 반환하든 상황에 맞게 설정
-    }
+	public int savePhotoInFolder(@RequestBody UserFolderPhoto data) {
+		int result = picstoryService.savePhotoInFolder(data.getPhoto_nums(), data.getFolder_num());
+
+		return result; // 어떤 결과를 반환하든 상황에 맞게 설정
+	}
 }
