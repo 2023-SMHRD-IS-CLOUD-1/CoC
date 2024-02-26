@@ -1,7 +1,9 @@
 package com.picstory.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.picstory.mapper.PicstoryMapper;
 import com.picstory.model.Photo;
 import com.picstory.model.PhotoTag;
@@ -130,13 +133,12 @@ public class PicstoryService {
 		return folderListSelect;
 	}
 
-
 	// 이미지벡터
 	public String urlVector(List<Photo> photoList, String user_tag_name) {
 		String url = "";
 		String[] data = null;
 		if (user_tag_name.equals("")) {
-			url = "http://localhost:4005/predict"; // 적절한 호스트와 포트를 사용해야 함
+			url = "http://52.41.65.59:4005/predict"; // 적절한 호스트와 포트를 사용해야 함
 			data = new String[photoList.size()]; // 통신에 보낼 배열을 url 갯수와 크기를 동일하게 지정해 생성
 			System.out.println("받은 사진 갯수 : " + photoList.size());
 			for (int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
@@ -145,12 +147,7 @@ public class PicstoryService {
 			}
 			System.out.println("벡터메소드 111111");
 		} else {
-			url = "http://172.30.1.72:4000/predict2"; // 수정필요
-			data = new String[photoList.size() + 1]; // 통신에 보낼 배열을 url 갯수와 크기를 동일하게 지정해 생성
-			for (int i = 0; i < photoList.size() - 1; i++) { // 배열에 url 추가
-				data[i] = photoList.get(i).getPhoto_url();
-			}
-			data[photoList.size() - 1] = user_tag_name;
+			System.out.println("???안떠야됨");
 		}
 		// HttpClient 객체 생성
 		HttpClient httpClient = HttpClientBuilder.create().build();
@@ -170,14 +167,26 @@ public class PicstoryService {
 			request.setEntity(params);
 			// POST 요청 보내기
 			HttpResponse response = httpClient.execute(request);
-			System.out.println("요청완료!!");
+			// System.out.println("요청완료!! 초기응답:" + response );
 
 			// 서버로부터 받은 응답 확인(특징벡터)
 			String responseBody = EntityUtils.toString(response.getEntity());
 			System.out.println("responseBody!!" + responseBody);
 
-			return responseBody;
+			// Gson 라이브러리를 사용하여 JSON 배열을 List<Map<String, Object>>로 파싱
+			java.lang.reflect.Type listType = new TypeToken<ArrayList<Map<String, Object>>>() {
+			}.getType();
+			List<Map<String, Object>> featuresList = new Gson().fromJson(responseBody, listType);
 
+			// List<Map<String, Object>>를 JSON 객체로 변환
+			Map<String, Object> responseMap = new HashMap<>();
+			responseMap.put("images", featuresList);
+
+			// 최종 JSON 객체를 String으로 변환하여 반환
+			String jsonResponse = new Gson().toJson(responseMap);
+			System.out.println("JSON Response to React Client: " + jsonResponse);
+
+			return jsonResponse;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -186,48 +195,48 @@ public class PicstoryService {
 
 	// 이미지 업로드 시 태그 생성 함수 호출
 	public void setTag(List<Photo> photoList) {
-		setBasicTag(photoList);  // 기본 태그 (기본 10개, 프리미엄유저는 20개)
-		setPremiumTag(photoList);  // 커스텀 태그
+		setBasicTag(photoList); // 기본 태그 (기본 10개, 프리미엄유저는 20개)
+		setPremiumTag(photoList); // 커스텀 태그
 	}
-	
-	// 프리미엄 유저 여부 확인 후 커스텀 태그 생성 함수 호출 
+
+	// 프리미엄 유저 여부 확인 후 커스텀 태그 생성 함수 호출
 	private void setPremiumTag(List<Photo> photoList) {
 		Photo photo = photoList.get(0);
 		User user = picstoryMapper.preminumCheck(photo);
 		List<UserTag> userTag = null;
-		if(user.getUser_premium().equals("10")) {
+		if (user.getUser_premium().equals("10")) {
 			userTag = picstoryMapper.getCustomTag(photo);
 			setCustomTag(photoList, userTag);
 		}
 	}
-	
+
 	// 사용자의 기존 이미지에 커스텀 태그 생성
 	private void setCustomTag(List<Photo> photoList, List<UserTag> userTag) {
 		String url = "http://172.30.1.72:4000/predictt2"; // 적절한 호스트와 포트를 사용해야 함
-		
+
 		// 이중 배열로 첫 번째 배열에는 url목록을, 두 번째 목록에는 커스탬 태그 목록을 저장한다
 		String[][] data = new String[2][];
-		data[0]=new String[photoList.size()];
-		data[1]=new String[userTag.size()];
-		
-    	for(int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
-    		data[0][i] = photoList.get(i).getPhoto_url();
-    	}
-    	for(int i = 0; i < userTag.size(); i++) { // 배열에 url 추가
-    		data[1][i] = userTag.get(i).getUser_tag_name();
-    	}
+		data[0] = new String[photoList.size()];
+		data[1] = new String[userTag.size()];
 
-        // HttpClient 객체 생성
-        HttpClient httpClient = HttpClientBuilder.create().build();
+		for (int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
+			data[0][i] = photoList.get(i).getPhoto_url();
+		}
+		for (int i = 0; i < userTag.size(); i++) { // 배열에 url 추가
+			data[1][i] = userTag.get(i).getUser_tag_name();
+		}
 
-        // HTTP POST 요청 객체 생성
-        HttpPost request = new HttpPost(url);
+		// HttpClient 객체 생성
+		HttpClient httpClient = HttpClientBuilder.create().build();
 
-        // 배열을 JSON 형식으로 변환
-        Gson gson = new Gson();
-        String json = gson.toJson(data);
+		// HTTP POST 요청 객체 생성
+		HttpPost request = new HttpPost(url);
 
-        // JSON 데이터를 StringEntity에 설정
+		// 배열을 JSON 형식으로 변환
+		Gson gson = new Gson();
+		String json = gson.toJson(data);
+
+		// JSON 데이터를 StringEntity에 설정
 		try {
 			StringEntity params;
 			params = new StringEntity(json);
@@ -235,76 +244,76 @@ public class PicstoryService {
 			request.setEntity(params);
 			// POST 요청 보내기
 			HttpResponse response = httpClient.execute(request);
-			
+
 			// 서버로부터 받은 응답 확인
 			String responseBody = EntityUtils.toString(response.getEntity());
 			System.out.println("Response from server: " + responseBody);
 
 			// JSON 문자열을 JsonObject로 파싱
-	        JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
+			JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
 
-	        // tagList에 대한 JsonArray 가져오기
-	        JsonArray tagList = jsonObject.getAsJsonArray("tagList");
+			// tagList에 대한 JsonArray 가져오기
+			JsonArray tagList = jsonObject.getAsJsonArray("tagList");
 
-	        // 이중 배열로 파싱
-	        String[][] doubleArray = new String[tagList.size()][];
+			// 이중 배열로 파싱
+			String[][] doubleArray = new String[tagList.size()][];
 
-	        // 이중 배열로 변환
-	        for (int i = 0; i < tagList.size(); i++) {
-	            JsonArray innerArray = tagList.get(i).getAsJsonArray();
-	            doubleArray[i] = new String[innerArray.size()];
+			// 이중 배열로 변환
+			for (int i = 0; i < tagList.size(); i++) {
+				JsonArray innerArray = tagList.get(i).getAsJsonArray();
+				doubleArray[i] = new String[innerArray.size()];
 
-	            for (int j = 0; j < innerArray.size(); j++) {
-	                doubleArray[i][j] = innerArray.get(j).getAsString();
-	            }
-	        }
+				for (int j = 0; j < innerArray.size(); j++) {
+					doubleArray[i][j] = innerArray.get(j).getAsString();
+				}
+			}
 //		 이미지수만큼 반복
-			for(int i=0;i<doubleArray.length-1;i++) {
+			for (int i = 0; i < doubleArray.length - 1; i++) {
 				// 태그갯수만큼 반복
-				for(int j=0;j<doubleArray[i].length;j++) {
-					if(doubleArray[i][j].equals("yes")) {
+				for (int j = 0; j < doubleArray[i].length; j++) {
+					if (doubleArray[i][j].equals("yes")) {
 						PhotoTag photoTag = new PhotoTag();
 						photoTag.setPhoto_num(photoList.get(i).getPhoto_num());
-						photoTag.setTag_name(doubleArray[doubleArray.length-1][j]);
+						photoTag.setTag_name(doubleArray[doubleArray.length - 1][j]);
 						picstoryMapper.addTag(photoTag);
 					}
 				}
 			}
-		
-		
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	// 기본 태그(10개, 20개) 생성
 	private void setBasicTag(List<Photo> photoList) {
 		Photo photo = photoList.get(0);
 		User user = picstoryMapper.preminumCheck(photo);
 		String url = null;
-		if(user.getUser_premium().equals("10"))
-		{url = "http://172.30.1.72:4010/predictt3";}			
-		else
-		{url = "http://172.30.1.72:4010/predictt4";}			
+		if (user.getUser_premium().equals("10")) {
+			url = "http://172.30.1.72:4010/predictt3";
+		} else {
+			url = "http://172.30.1.72:4010/predictt4";
+		}
 		// 이중 배열로 첫 번째 배열에는 url목록을, 두 번째 목록에는 커스탬 태그 목록을 저장한다
 		String[] data = new String[photoList.size()];
-		
-    	for(int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
-    		data[i] = photoList.get(i).getPhoto_url();
-    	}
 
-        // HttpClient 객체 생성
-        HttpClient httpClient = HttpClientBuilder.create().build();
+		for (int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
+			data[i] = photoList.get(i).getPhoto_url();
+		}
 
-        // HTTP POST 요청 객체 생성
-        HttpPost request = new HttpPost(url);
+		// HttpClient 객체 생성
+		HttpClient httpClient = HttpClientBuilder.create().build();
 
-        // 배열을 JSON 형식으로 변환
-        Gson gson = new Gson();
-        String json = gson.toJson(data);
+		// HTTP POST 요청 객체 생성
+		HttpPost request = new HttpPost(url);
 
-        // JSON 데이터를 StringEntity에 설정
+		// 배열을 JSON 형식으로 변환
+		Gson gson = new Gson();
+		String json = gson.toJson(data);
+
+		// JSON 데이터를 StringEntity에 설정
 		try {
 			StringEntity params;
 			params = new StringEntity(json);
@@ -312,49 +321,48 @@ public class PicstoryService {
 			request.setEntity(params);
 			// POST 요청 보내기
 			HttpResponse response = httpClient.execute(request);
-			
+
 			// 서버로부터 받은 응답 확인
 			String responseBody = EntityUtils.toString(response.getEntity());
 			System.out.println("Response from server: " + responseBody);
 
 			// JSON 문자열을 JsonObject로 파싱
-	        JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-	        
-	        // tagList에 대한 JsonArray 가져오기
-	        JsonArray tagList = jsonObject.getAsJsonArray("tagList");
+			JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
 
-	        // 이중 배열로 파싱
-	        String[][] doubleArray = new String[tagList.size()][];
+			// tagList에 대한 JsonArray 가져오기
+			JsonArray tagList = jsonObject.getAsJsonArray("tagList");
 
-	        // 이중 배열로 변환
-	        for (int i = 0; i < tagList.size(); i++) {
-	            JsonArray innerArray = tagList.get(i).getAsJsonArray();
-	            doubleArray[i] = new String[innerArray.size()];
+			// 이중 배열로 파싱
+			String[][] doubleArray = new String[tagList.size()][];
 
-	            for (int j = 0; j < innerArray.size(); j++) {
-	                doubleArray[i][j] = innerArray.get(j).getAsString();
-	            }
-	        }
+			// 이중 배열로 변환
+			for (int i = 0; i < tagList.size(); i++) {
+				JsonArray innerArray = tagList.get(i).getAsJsonArray();
+				doubleArray[i] = new String[innerArray.size()];
+
+				for (int j = 0; j < innerArray.size(); j++) {
+					doubleArray[i][j] = innerArray.get(j).getAsString();
+				}
+			}
 //		 이미지수만큼 반복
-			for(int i=0;i<doubleArray.length-1;i++) {
+			for (int i = 0; i < doubleArray.length - 1; i++) {
 				// 태그갯수만큼 반복
-				for(int j=0;j<doubleArray[i].length;j++) {
-					if(doubleArray[i][j].equals("yes")) {
+				for (int j = 0; j < doubleArray[i].length; j++) {
+					if (doubleArray[i][j].equals("yes")) {
 						PhotoTag photoTag = new PhotoTag();
 						photoTag.setPhoto_num(photoList.get(i).getPhoto_num());
-						photoTag.setTag_name(doubleArray[doubleArray.length-1][j]);
+						photoTag.setTag_name(doubleArray[doubleArray.length - 1][j]);
 						picstoryMapper.addTag(photoTag);
 					}
 				}
 			}
-		
-		
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	// url로 photo_num 가져오기
 	public Photo getPhotoNum(Photo photo) {
 		Photo result = picstoryMapper.getPhotoNum(photo);
@@ -366,15 +374,15 @@ public class PicstoryService {
 		picstoryMapper.createTag(tag);
 		setTag(tag);
 	}
-	
+
 	// 기존 이미지 커스텀 태깅
 	private void setTag(UserTag tag) {
 		List<Photo> photoList = picstoryMapper.getPhotoInfo(tag.getUser_num());
 		List<UserTag> user_tag = new ArrayList<UserTag>();
 		user_tag.add(tag);
-		setCustomTag(photoList, user_tag);			
+		setCustomTag(photoList, user_tag);
 	}
-	
+
 	// 네이버 첫 로그인 -> db 삽입
 	public void naverJoin(User userNaver) {
 		picstoryMapper.naverJoin(userNaver);
@@ -411,35 +419,36 @@ public class PicstoryService {
 		picstoryMapper.deleteFolder(userFolder);
 
 	}
-	
+
 	// 사용자 프리미엄 여부 조회
 	public User selectUserPremium(User user) {
 		User userPremium = picstoryMapper.selectUserPremium(user);
-		
+
 		return userPremium;
-		
+
 	}
 
 	// 태그필터링해서 해당하는 포토넘 가져오기
 	public List<Integer> loadTaggingPhoto(List<String> tags) {
 		List<Integer> result = picstoryMapper.loadTaggingPhoto(tags);
-		
+
 		return result;
-		
+
 	}
-	
+
 	// 필터링한 사진 정보 가져오기
 	public List<Photo> selectTaggedPhoto(Photo photo) {
 		List<Photo> storageS3Url = picstoryMapper.selectTaggedPhoto(photo);
 		System.out.println(storageS3Url + "%%%%%%%%%%%%%%%%%%%%%%%");
 		return storageS3Url;
 	}
-	
+
 	// 태그 리스트
 	public List<String> getTagList(Integer userNum) {
 		List<String> tagList = picstoryMapper.getTagList(userNum);
 		return tagList;
 	}
+
 	// 체크한 사진들 식별번호 가져오기
 	public List<Photo> loadSelectedPhotoNum(List<Photo> s3_photo_name) {
 		List<Photo> photo_num = picstoryMapper.loadSelectedPhotoNum(s3_photo_name);

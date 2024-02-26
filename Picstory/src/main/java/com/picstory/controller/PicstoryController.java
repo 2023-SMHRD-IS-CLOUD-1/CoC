@@ -107,8 +107,7 @@ public class PicstoryController {
 
 	// 이미지 업로드
 	@PostMapping("/imageUpload")
-//	public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
-	public void imageUpload(@RequestBody Photo data) {
+	public ResponseEntity<String> imageUpload(@RequestBody Photo data) {
 		try {
 			System.out.println("컨트롤러에서 받은 : " + data);
 
@@ -147,7 +146,6 @@ public class PicstoryController {
 					// 이미지 업로드할 때 태깅
 					Photo photoTmp = new Photo();
 					photoTmp.setPhoto_url(photoUrlsArray[j]);
-					photoTmp.setUser_num(data.getUser_num());
 					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
 					photoList.add(photoTmp);
 				}
@@ -178,23 +176,21 @@ public class PicstoryController {
 					Photo photoTmp = new Photo();
 					photoTmp.setPhoto_url(photoUrlsArray[i]);
 					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
-					photoTmp.setUser_num(data.getUser_num());
 					photoList.add(photoTmp);
 				}
 			}
 			System.out.println("서비스 가기 전 : " + photoList);
 			// 이미지 업로드할 때 태깅
-			picstoryService.setTag(photoList);
+			// picstoryService.url(photoList, "");
 			// 이미지 업로드할 때 특징벡터
-//			String responseBody = picstoryService.urlVector(photoList, "");
+			String responseBody = picstoryService.urlVector(photoList, "");
 
-			// return ResponseEntity.ok("File upload successful");
-//			return ResponseEntity.ok(responseBody);
+			return ResponseEntity.ok(responseBody); // 특징벡터->리액트
 
 		} catch (Exception e) {
 			// 오류가 발생했다면 500 Internal Server Error 응답 반환
 			e.printStackTrace();
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed");
 		}
 	}
 
@@ -293,40 +289,39 @@ public class PicstoryController {
 
 		return "success";
 	}
-	
+
 	// 태그 생성
 	@PostMapping("/createTag")
 	public void createTag(@RequestBody UserTag tag) {
 		System.out.println("sasdfsaaasdf");
 		picstoryService.createTag(tag);
 	}
-	
+
 	// 사용자 프리미엄 여부 불러오기
-		@PostMapping("/selectUserPremium")
-		public User selectUserPremium(@RequestBody User user) {
-			User userPremium= picstoryService.selectUserPremium(user);
-			 
-			return userPremium;
-		}
-		
-		// 태그필터링해서 사진 정보 가져오기
-		@PostMapping("/loadTaggingPhoto")
-		public List<Integer> loadTaggingPhoto(@RequestBody List<String> tagNames) {
-			System.out.println("tagNames"+tagNames);
-			List<Integer> result = picstoryService.loadTaggingPhoto(tagNames);
-			System.out.println(result + "보내준 데이터@@@@"); 
-			return result;
-		} 
-			
+	@PostMapping("/selectUserPremium")
+	public User selectUserPremium(@RequestBody User user) {
+		User userPremium = picstoryService.selectUserPremium(user);
+
+		return userPremium;
+	}
+
+	// 태그필터링해서 사진 정보 가져오기
+	@PostMapping("/loadTaggingPhoto")
+	public List<Integer> loadTaggingPhoto(@RequestBody List<String> tagNames) {
+		System.out.println("tagNames" + tagNames);
+		List<Integer> result = picstoryService.loadTaggingPhoto(tagNames);
+		System.out.println(result + "보내준 데이터@@@@");
+		return result;
+	}
+
 //			
-		// 필터링한 사진 정보데이터 가져오기   
-		@PostMapping("/selectTaggedPhoto")
-		public List<Photo> selectTaggedPhoto(@RequestBody Photo photo) {
-			List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
-			return storageS3Url;
-		}
-	
-	
+	// 필터링한 사진 정보데이터 가져오기
+	@PostMapping("/selectTaggedPhoto")
+	public List<Photo> selectTaggedPhoto(@RequestBody Photo photo) {
+		List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
+		return storageS3Url;
+	}
+
 	// 체크한 사진들 식별번호 가져오기
 	@PostMapping("/loadSelectedPhotoNum")
 	public List<Photo> loadSelectedPhotoNum(@RequestBody List<Photo> s3_photo_name) {
