@@ -194,6 +194,18 @@ public class PicstoryService {
 		}
 	}
 
+	// 프리미엄유저의 커스텀 태그 정보 반환
+	public String[] getCustomTag(User user) {
+		Photo data = new Photo();
+		data.setUser_num(user.getUser_num());
+		List<UserTag> tmpResult = picstoryMapper.getCustomTag(data);
+		String[] result= new String[tmpResult.size()];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = tmpResult.get(i).getUser_tag_name();
+		}
+		return result;
+	}
+	
 	// 이미지 업로드 시 태그 생성 함수 호출
 	public void setTag(List<Photo> photoList) {
 		setBasicTag(photoList); // 기본 태그 (기본 10개, 프리미엄유저는 20개)

@@ -306,6 +306,13 @@ public class PicstoryController {
 		picstoryService.createTag(tag);
 	}
 
+	// 사용자의 커스텀 태그 가져오기
+	@PostMapping("/getCustomTag")
+	public String[] getCustomTag(@RequestBody User user) {
+		String[] result = picstoryService.getCustomTag(user);
+		return result;
+	}
+	
 	// 사용자 프리미엄 여부 불러오기
 	@PostMapping("/selectUserPremium")
 	public User selectUserPremium(@RequestBody User user) {
