@@ -305,4 +305,27 @@
 		WHERE s3_photo_name =
 		#{s3_photo_name}
 	</select>
+	
+	<!-- 체크한 사진 삭제하기 --> 
+	<delete id="deleteChckedPhoto">
+		DELETE FROM tb_photo
+		WHERE photo_num In
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+	
+	<!-- 폴더에 사진 담기 위해 폴더 식별번호 가져오기 -->
+	<select id="addPhotoToFolder" parameterType="com.picstory.model.UserFolder" resultType="com.picstory.model.UserFolderPhoto">
+		SELECT folder_num
+		FROM tb_u_folder
+		WHERE user_num = #{user_num} AND folder_name = #{folder_name}
+	</select>
+	
+	 <!-- 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기 -->
+	<insert id="savePhotoInFolder" parameterType="com.picstory.model.UserFolderPhoto">
+        INSERT INTO TB_U_F_PHOTO (photo_num, folder_num)
+        VALUES (#{photo_num}, #{folder_num})
+    </insert>
+	
 </mapper>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.picstory.model.Photo;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
+import com.picstory.model.UserFolderPhoto;
 import com.picstory.model.UserTag;
 import com.picstory.service.PicstoryService;
 
@@ -336,4 +337,26 @@ public class PicstoryController {
 		List<Photo> photo_num = picstoryService.loadSelectedPhotoNum(s3_photo_name);
 		return photo_num;
 	}
+	// 체크한 사진 삭제하기 
+	@PostMapping("/deleteChckedPhoto")
+	public void deleteChckedPhoto(@RequestBody List<Integer> photoNum) { 
+		System.out.println(photoNum + "$$$$#$#$#$#$#$#$#$$#");
+		picstoryService.deleteChckedPhoto(photoNum);
+	}
+	  
+	// 폴더에 사진 담기 위해 폴더 식별번호 가져오기
+	@PostMapping("/addPhotoToFolder")
+	public UserFolderPhoto addPhotoToFolder(@RequestBody UserFolder userFolder) {
+		UserFolderPhoto folder_num = picstoryService.addPhotoToFolder(userFolder);
+		return folder_num;
+	}
+	 
+	// 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기
+	@PostMapping("/savePhotoInFolder")
+    public int savePhotoInFolder(@RequestBody UserFolderPhoto data) {
+        int result = picstoryService.savePhotoInFolder(data.getPhoto_nums(), data.getFolder_num());
+         
+         
+        return result; // 어떤 결과를 반환하든 상황에 맞게 설정
+    }
 }

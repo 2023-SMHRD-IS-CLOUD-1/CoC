@@ -8,6 +8,7 @@ import com.picstory.model.Photo;
 import com.picstory.model.PhotoTag;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
+import com.picstory.model.UserFolderPhoto;
 import com.picstory.model.UserTag;
 
 @Mapper
@@ -113,5 +114,14 @@ public interface PicstoryMapper {
 	public List<Photo> loadSelectedPhotoNum(List<Photo> s3_photo_name);
 
 	public void payment(User user);
+	
+	// 체크한 사진 삭제하기 
+	public void deleteChckedPhoto(List<Integer> photoNum);
+
+	// 폴더에 사진 담기 위해 폴더 식별번호 가져오기
+	public UserFolderPhoto addPhotoToFolder(UserFolder userFolder);
+	 
+	// 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기
+	public int savePhotoInFolder(UserFolderPhoto listint );
 
 }

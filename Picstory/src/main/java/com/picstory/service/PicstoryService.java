@@ -24,6 +24,7 @@ import com.picstory.model.Photo;
 import com.picstory.model.PhotoTag;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
+import com.picstory.model.UserFolderPhoto;
 import com.picstory.model.UserTag;
 
 @Service
@@ -459,4 +460,33 @@ public class PicstoryService {
 
 		picstoryMapper.payment(user);
 	}
+	
+	// 체크한 사진 삭제하기 
+	public void deleteChckedPhoto(List<Integer> photoNum) {
+		picstoryMapper.deleteChckedPhoto(photoNum);
+		
+	}
+
+	// 폴더에 사진 담기 위해 폴더 식별번호 가져오기
+	public UserFolderPhoto addPhotoToFolder(UserFolder userFolder) {
+		UserFolderPhoto folder_num = picstoryMapper.addPhotoToFolder(userFolder);
+		return folder_num;
+	}
+	
+	// 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기
+
+	public int savePhotoInFolder(List<Integer> photo_nums, int folder_num) {
+
+        // List<Integer>를 int[]로 변환
+        int[] photo_num = photo_nums.stream().mapToInt(Integer::intValue).toArray();
+
+		for (int i = 0; i < photo_nums.size(); i++) {
+			UserFolderPhoto list = new UserFolderPhoto();
+			list.setPhoto_num(photo_num[i]);
+			list.setFolder_num(folder_num);
+			
+			picstoryMapper.savePhotoInFolder(list);
+		}
+	    return 0;
+	} 
 }
