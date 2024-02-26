@@ -143,7 +143,7 @@
 		ORDER BY folder_uploaded
 	</select>
 
-	<!-- 태그 추가 -->
+	<!-- 태그 추가 (한 이미지에 대한 태그 추가) -->
 	<insert id="addTag"
 		parameterType="com.picstory.model.PhotoTag">
 		INSERT INTO tb_p_tag (photo_num, tag_name)
@@ -151,13 +151,31 @@
 		(#{photo_num}, #{tag_name})
 	</insert>
 	
-	<!-- 태그 추가 (태그 추가됐을 때)-->
-	<insert id="setTag"
-		parameterType="com.picstory.model.PhotoTag">
-		INSERT INTO tb_p_tag (photo_num, tag_name)
+	<!-- 태그 추가 (사용자의 커스텀 태그를 추가) -->
+	<insert id="createTag"
+		parameterType="com.picstory.model.UserTag">
+		INSERT INTO tb_user_tag (user_num, user_tag_name)
 		VALUES
-		(#{photo_num}, #{tag_name})
+		(#{user_num}, #{user_tag_name})
 	</insert>
+	
+	<!-- 프리미엄 여부 체크 -->
+	<select id="preminumCheck" parameterType="com.picstory.model.Photo"
+	resultType="com.picstory.model.User">	
+		SELECT user_premium
+		FROM tb_user
+		WHERE user_num =
+		#{user_num}
+	</select>
+	
+	<!-- 커스텀 태그 조회 -->
+	<select id="getCustomTag" parameterType="com.picstory.model.Photo"
+	resultType="com.picstory.model.UserTag">
+		SELECT user_tag_name
+		FROM tb_user_tag
+		WHERE user_num =
+		#{user_num}
+	</select>
 	
 	<!-- 이미지 태깅 - url로 photo_num조회 -->
 	<select id="getPhotoNum"
@@ -218,5 +236,40 @@
 		DELETE FROM tb_u_folder
 		WHERE folder_name = #{folder_name} AND folder_num = #{folder_num}
 	</delete>
+	
+	<!-- 유저 프리미엄 정보 -->
+	<select id="selectUserPremium" parameterType="com.picstory.model.User" resultType="com.picstory.model.User">
+		SELECT user_premium
+		FROM tb_user
+		WHERE user_num = #{user_num}
+	</select>
+	
+	<resultMap id="loadTaggingPhotoResultMap" type="java.lang.Integer" /> 
+	
+	<!-- 선택한 태그 달린 사진넘버 가져오기 -->
+	<select id="loadTaggingPhoto" resultMap="loadTaggingPhotoResultMap">
+		SELECT photo_num
+		FROM tb_p_tag
+		WHERE tag_name IN 
+		<foreach collection="list" item="tag" open="(" separator="," close=")">
+		#{tag}
+		</foreach>
+	</select>
+
+	<!-- 필터링한 사진 정보 가져오기 -->
+	<select id="selectTaggedPhoto" parameterType="com.picstory.model.Photo" resultType="com.picstory.model.Photo">
+	    SELECT s3_photo_name, photo_url, user_photo_name 
+	    FROM tb_photo
+	    WHERE user_num = #{user_num} AND photo_num IN
+	    <foreach collection="photo_num_list" item="photoNum" open="(" separator="," close=")">
+	        #{photoNum}
+	    </foreach>
+	</select>
+
+	<!-- 태그 리스트 -->
+	<select id="getTagList" parameterType="Integer"
+		resultType="String">
+		SELECT user_tag_name FROM tb_user_tag WHERE user_num = #{userNum}
+	</select>
 
 </mapper>

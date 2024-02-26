@@ -1,6 +1,8 @@
 package com.picstory.model;
 
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ public class Photo {
 	private String photo_size;
 	private String photo_favor;
 	private int length;
+	private List<Integer> photo_num_list;
 	
 
 }

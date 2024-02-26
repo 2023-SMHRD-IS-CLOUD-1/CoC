@@ -8,6 +8,7 @@ import com.picstory.model.Photo;
 import com.picstory.model.PhotoTag;
 import com.picstory.model.User;
 import com.picstory.model.UserFolder;
+import com.picstory.model.UserTag;
 
 @Mapper
 public interface PicstoryMapper {
@@ -65,10 +66,19 @@ public interface PicstoryMapper {
 	public void addTag(PhotoTag photoTag);
 
 	// user_num으로 사진 정보 전부 불러오기
-	public List<Photo> getPhotoInfo(Photo user_num);
+	public List<Photo> getPhotoInfo(int user_num);
 
 	// url로 photo_num 리턴
 	public Photo getPhotoNum(Photo photo);
+	
+	// 커스텀 태그 생성
+	public void createTag(UserTag tag);
+
+	// 프리미엄 여부 체크
+	public User preminumCheck(Photo photo);
+
+	// 유저의 커스텀 태그 확인
+	public List<UserTag> getCustomTag(Photo photo);
 	
 	// 네이버로 첫 로그인 -> db insert
 	public void naverJoin(User userNaver);
@@ -87,5 +97,17 @@ public interface PicstoryMapper {
 
 	// 폴더 삭제
 	public void deleteFolder(UserFolder userFolder);
+	
+	// 유저 프리미엄 정보 조회
+	public User selectUserPremium(User user);
+	
+	// 태그필터링해서 해당하는 포토넘 가져오기
+	public List<Integer> loadTaggingPhoto(List<String> photoTag);
+
+	// 필터링한 사진 정보 가져오기
+	public List<Photo> selectTaggedPhoto(Photo photo);
+	
+	// 태그 리스트
+	public List<String> getTagList(Integer userNum);
 
 }
