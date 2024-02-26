@@ -106,5 +106,8 @@ public interface PicstoryMapper {
 
 	// 필터링한 사진 정보 가져오기
 	public List<Photo> selectTaggedPhoto(Photo photo);
+	
+	// 태그 리스트
+	public List<String> getTagList(Integer userNum);
 
 }

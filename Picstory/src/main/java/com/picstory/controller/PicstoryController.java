@@ -88,9 +88,11 @@ public class PicstoryController {
 		Map<String, Object> response = new HashMap<>();
 		User myinfo = picstoryService.myinfo(user);
 		Integer countPhoto = picstoryService.countPhoto(user);
+		List<String> tagList = picstoryService.getTagList(user.getUser_num());
 
 		response.put("myinfo", myinfo);
 		response.put("countPhoto", countPhoto);
+		response.put("tagList", tagList);
 
 		return response;
 	}

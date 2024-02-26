@@ -435,4 +435,10 @@ public class PicstoryService {
 		System.out.println(storageS3Url + "%%%%%%%%%%%%%%%%%%%%%%%");
 		return storageS3Url;
 	}
+	
+	// 태그 리스트
+	public List<String> getTagList(Integer userNum) {
+		List<String> tagList = picstoryMapper.getTagList(userNum);
+		return tagList;
+	}
 }

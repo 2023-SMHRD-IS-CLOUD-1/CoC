@@ -266,4 +266,10 @@
 	    </foreach>
 	</select>
 
+	<!-- 태그 리스트 -->
+	<select id="getTagList" parameterType="Integer"
+		resultType="String">
+		SELECT user_tag_name FROM tb_user_tag WHERE user_num = #{userNum}
+	</select>
+
 </mapper>
