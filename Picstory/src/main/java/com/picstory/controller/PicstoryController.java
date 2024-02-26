@@ -309,18 +309,28 @@ public class PicstoryController {
 			return userPremium;
 		}
 		
-	// 태그필터링해서 사진 정보 가져오기
-	@PostMapping("/loadTaggingPhoto")
-	public List<Integer> loadTaggingPhoto(@RequestBody List<String> tagNames) {
-		List<Integer> result = picstoryService.loadTaggingPhoto(tagNames);
-		System.out.println(result + "보내준 데이터@@@@"); 
-		return result;
-	} 
+		// 태그필터링해서 사진 정보 가져오기
+		@PostMapping("/loadTaggingPhoto")
+		public List<Integer> loadTaggingPhoto(@RequestBody List<String> tagNames) {
+			System.out.println("tagNames"+tagNames);
+			List<Integer> result = picstoryService.loadTaggingPhoto(tagNames);
+			System.out.println(result + "보내준 데이터@@@@"); 
+			return result;
+		} 
+			
+//			
+		// 필터링한 사진 정보데이터 가져오기   
+		@PostMapping("/selectTaggedPhoto")
+		public List<Photo> selectTaggedPhoto(@RequestBody Photo photo) {
+			List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
+			return storageS3Url;
+		}
 	
-	// 필터링한 사진 정보데이터 가져오기   
-	@PostMapping("/selectTaggedPhoto")
-	public List<Photo> selectTaggedPhoto(@RequestBody Photo photo) {
-		List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
-		return storageS3Url;
+	
+	// 체크한 사진들 식별번호 가져오기
+	@PostMapping("/loadSelectedPhotoNum")
+	public List<Photo> loadSelectedPhotoNum(@RequestBody List<Photo> s3_photo_name) {
+		List<Photo> photo_num = picstoryService.loadSelectedPhotoNum(s3_photo_name);
+		return photo_num;
 	}
 }
