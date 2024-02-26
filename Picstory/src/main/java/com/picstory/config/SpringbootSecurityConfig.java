@@ -22,7 +22,7 @@ public class SpringbootSecurityConfig {
 	                        "/favorFalse", "/favorPageImgList", "/folderList", "/folderListSelect", "/url",
 	                        "/naverJoin", "/deleteUser", "/payment", "/updateFolderName", "/deleteFolder","/createTag",
 	                        "/getCustomTag","/selectUserPremium", "/loadTaggingPhoto", "/selectTaggedPhoto","/loadSelectedPhotoNum"
-	                        ,"/deleteChckedPhoto","/addPhotoToFolder","/savePhotoInFolder")
+	                        ,"/deleteChckedPhoto","/addPhotoToFolder","/savePhotoInFolder","/findFolderNum")
 	                  .permitAll().antMatchers("/billing/**").hasRole("1").anyRequest().authenticated())
 	            .formLogin(login -> login.disable()); 
 
