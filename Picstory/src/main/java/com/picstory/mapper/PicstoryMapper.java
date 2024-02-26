@@ -125,5 +125,13 @@ public interface PicstoryMapper {
 	public int savePhotoInFolder(UserFolderPhoto listint );
 	
 	public User loginEncodePwSelect(User user);
+	
+	// 폴더 선택했을 때 해당 폴더 식별번호 가져오기
+	public UserFolder findFolderNum(UserFolder userFolder);
+
+	// 가져온 폴더식별번호로 해당 폴더에 들어있는 사진 식별번호 가져오기
+	public List<Photo> findPhotoNums(UserFolder userFolder);
+
+	public Photo findway(Photo photo);
 
 }

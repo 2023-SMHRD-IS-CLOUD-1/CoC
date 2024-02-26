@@ -508,4 +508,23 @@ public class PicstoryService {
 		}
 	    return 0;
 	} 
+	
+	// 폴더 선택했을 때 해당 폴더 식별번호 가져오기
+	public List<Photo> findFolderNum(UserFolder userFolder) {
+		UserFolder result1 = picstoryMapper.findFolderNum(userFolder);
+		List<Photo> result3 = picstoryMapper.findPhotoNums(result1);
+		System.out.println("@@@@@가져온 사진 식별번호@@@@ : " + result3);
+		if (result3.size() == 0) {
+			return null;
+		} else {
+			List<Photo> result = new ArrayList<>();
+			for (int i = 0; i < result3.size(); i++) {
+				Photo data = picstoryMapper.findway(result3.get(i));
+				result.add(data);
+			}
+
+			return result;
+		}
+
+	}
 }

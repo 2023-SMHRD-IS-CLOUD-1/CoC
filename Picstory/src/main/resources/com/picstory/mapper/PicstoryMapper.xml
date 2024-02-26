@@ -334,5 +334,25 @@
         INSERT INTO TB_U_F_PHOTO (photo_num, folder_num)
         VALUES (#{photo_num}, #{folder_num})
     </insert>
+    
+    <!-- 폴더 선택했을 때 해당 폴더 식별번호 가져오기 -->
+	<select id="findFolderNum" parameterType="com.picstory.model.UserFolder" resultType="com.picstory.model.UserFolder">
+		SELECT folder_num
+		FROM tb_u_folder
+		WHERE user_num = #{user_num} AND folder_name = #{folder_name}
+	</select>
+	 
+	<!-- 가져온 폴더식별번호로 해당 폴더에 들어있는 사진 식별번호 가져오기 -->
+	<select id="findPhotoNums" parameterType="com.picstory.model.UserFolder" resultType="com.picstory.model.Photo">
+		SELECT photo_num
+		FROM tb_u_f_photo
+		WHERE folder_num = #{folder_num}
+	</select>
+	 
+	<select id="findway" parameterType="com.picstory.model.Photo" resultType="com.picstory.model.Photo">
+		SELECT *
+		FROM tb_photo
+		WHERE photo_num = #{photo_num}
+	</select> 
 	
 </mapper>

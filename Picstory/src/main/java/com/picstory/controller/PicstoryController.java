@@ -364,19 +364,31 @@ public class PicstoryController {
 		System.out.println(photoNum + "$$$$#$#$#$#$#$#$#$$#");
 		picstoryService.deleteChckedPhoto(photoNum);
 	}
-
+  
 	// 폴더에 사진 담기 위해 폴더 식별번호 가져오기
 	@PostMapping("/addPhotoToFolder")
 	public UserFolderPhoto addPhotoToFolder(@RequestBody UserFolder userFolder) {
 		UserFolderPhoto folder_num = picstoryService.addPhotoToFolder(userFolder);
 		return folder_num;
 	}
-
+ 
 	// 폴더 식별번호와 선택된 사진 식별번호 이용해서 TB_U_F_PHOTO에 저장하기
 	@PostMapping("/savePhotoInFolder")
 	public int savePhotoInFolder(@RequestBody UserFolderPhoto data) {
 		int result = picstoryService.savePhotoInFolder(data.getPhoto_nums(), data.getFolder_num());
 
 		return result; // 어떤 결과를 반환하든 상황에 맞게 설정
+	}
+	 
+	// 폴더 선택했을 때 해당 폴더 식별번호 가져
+	@PostMapping("/findFolderNum")
+	public List<Photo> findFolderNum(@RequestBody UserFolder userFolder) {
+		System.err.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		List<Photo> result = picstoryService.findFolderNum(userFolder);
+		if (result == null) {
+			return null;
+		} else {
+			return result;
+		}
 	}
 }
