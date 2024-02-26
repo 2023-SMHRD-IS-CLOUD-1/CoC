@@ -97,5 +97,14 @@ public interface PicstoryMapper {
 
 	// 폴더 삭제
 	public void deleteFolder(UserFolder userFolder);
+	
+	// 유저 프리미엄 정보 조회
+	public User selectUserPremium(User user);
+	
+	// 태그필터링해서 해당하는 포토넘 가져오기
+	public List<Integer> loadTaggingPhoto(List<String> photoTag);
+
+	// 필터링한 사진 정보 가져오기
+	public List<Photo> selectTaggedPhoto(Photo photo);
 
 }

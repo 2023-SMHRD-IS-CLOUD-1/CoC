@@ -412,5 +412,27 @@ public class PicstoryService {
 		picstoryMapper.deleteFolder(userFolder);
 
 	}
+	
+	// 사용자 프리미엄 여부 조회
+	public User selectUserPremium(User user) {
+		User userPremium = picstoryMapper.selectUserPremium(user);
+		
+		return userPremium;
+		
+	}
 
+	// 태그필터링해서 해당하는 포토넘 가져오기
+	public List<Integer> loadTaggingPhoto(List<String> tags) {
+		List<Integer> result = picstoryMapper.loadTaggingPhoto(tags);
+		
+		return result;
+		
+	}
+	
+	// 필터링한 사진 정보 가져오기
+	public List<Photo> selectTaggedPhoto(Photo photo) {
+		List<Photo> storageS3Url = picstoryMapper.selectTaggedPhoto(photo);
+		System.out.println(storageS3Url + "%%%%%%%%%%%%%%%%%%%%%%%");
+		return storageS3Url;
+	}
 }

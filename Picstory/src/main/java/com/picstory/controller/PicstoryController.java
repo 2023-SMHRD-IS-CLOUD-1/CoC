@@ -298,4 +298,27 @@ public class PicstoryController {
 		System.out.println("sasdfsaaasdf");
 		picstoryService.createTag(tag);
 	}
+	
+	// 사용자 프리미엄 여부 불러오기
+		@PostMapping("/selectUserPremium")
+		public User selectUserPremium(@RequestBody User user) {
+			User userPremium= picstoryService.selectUserPremium(user);
+			 
+			return userPremium;
+		}
+		
+	// 태그필터링해서 사진 정보 가져오기
+	@PostMapping("/loadTaggingPhoto")
+	public List<Integer> loadTaggingPhoto(@RequestBody List<String> tagNames) {
+		List<Integer> result = picstoryService.loadTaggingPhoto(tagNames);
+		System.out.println(result + "보내준 데이터@@@@"); 
+		return result;
+	} 
+	
+	// 필터링한 사진 정보데이터 가져오기   
+	@PostMapping("/selectTaggedPhoto")
+	public List<Photo> selectTaggedPhoto(@RequestBody Photo photo) {
+		List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
+		return storageS3Url;
+	}
 }

@@ -236,5 +236,34 @@
 		DELETE FROM tb_u_folder
 		WHERE folder_name = #{folder_name} AND folder_num = #{folder_num}
 	</delete>
+	
+	<!-- 유저 프리미엄 정보 -->
+	<select id="selectUserPremium" parameterType="com.picstory.model.User" resultType="com.picstory.model.User">
+		SELECT user_premium
+		FROM tb_user
+		WHERE user_num = #{user_num}
+	</select>
+	
+	<resultMap id="loadTaggingPhotoResultMap" type="java.lang.Integer" /> 
+	
+	<!-- 선택한 태그 달린 사진넘버 가져오기 -->
+	<select id="loadTaggingPhoto" resultMap="loadTaggingPhotoResultMap">
+		SELECT photo_num
+		FROM tb_p_tag
+		WHERE tag_name IN 
+		<foreach collection="list" item="tag" open="(" separator="," close=")">
+		#{tag}
+		</foreach>
+	</select>
+
+	<!-- 필터링한 사진 정보 가져오기 -->
+	<select id="selectTaggedPhoto" parameterType="com.picstory.model.Photo" resultType="com.picstory.model.Photo">
+	    SELECT s3_photo_name, photo_url, user_photo_name 
+	    FROM tb_photo
+	    WHERE user_num = #{user_num} AND photo_num IN
+	    <foreach collection="photo_num_list" item="photoNum" open="(" separator="," close=")">
+	        #{photoNum}
+	    </foreach>
+	</select>
 
 </mapper>
