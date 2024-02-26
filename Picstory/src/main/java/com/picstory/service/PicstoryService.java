@@ -441,4 +441,9 @@ public class PicstoryService {
 		List<String> tagList = picstoryMapper.getTagList(userNum);
 		return tagList;
 	}
+	// 체크한 사진들 식별번호 가져오기
+	public List<Photo> loadSelectedPhotoNum(List<Photo> s3_photo_name) {
+		List<Photo> photo_num = picstoryMapper.loadSelectedPhotoNum(s3_photo_name);
+		return photo_num;
+	}
 }

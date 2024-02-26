@@ -323,4 +323,11 @@ public class PicstoryController {
 		List<Photo> storageS3Url = picstoryService.selectTaggedPhoto(photo);
 		return storageS3Url;
 	}
+	
+	// 체크한 사진들 식별번호 가져오기
+	@PostMapping("/loadSelectedPhotoNum")
+	public List<Photo> loadSelectedPhotoNum(@RequestBody List<Photo> s3_photo_name) {
+		List<Photo> photo_num = picstoryService.loadSelectedPhotoNum(s3_photo_name);
+		return photo_num;
+	}
 }

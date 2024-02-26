@@ -271,5 +271,11 @@
 		resultType="String">
 		SELECT user_tag_name FROM tb_user_tag WHERE user_num = #{userNum}
 	</select>
-
+	
+	<!-- 체크한 사진들 식별번호 가져오기 -->
+	<select id="loadSelectedPhotoNum" parameterType="com.picstory.model.Photo" resultType="com.picstory.model.Photo">
+		SELECT photo_num
+		FROM tb_photo
+		WHERE  s3_photo_name = #{s3_photo_name}
+	</select>
 </mapper>
