@@ -454,4 +454,9 @@ public class PicstoryService {
 		List<Photo> photo_num = picstoryMapper.loadSelectedPhotoNum(s3_photo_name);
 		return photo_num;
 	}
+
+	public void payment(User user) {
+
+		picstoryMapper.payment(user);
+	}
 }

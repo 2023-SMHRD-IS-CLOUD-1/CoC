@@ -40,6 +40,14 @@ public class PicstoryController {
 
 	}
 
+	// 결제완료시 premium 변경
+	@PostMapping("/payment")
+	public String payment(@RequestBody User user) {
+		System.out.printf("user : ", user);
+		picstoryService.payment(user);
+		return "";
+	}
+
 	// 회원가입
 	@PostMapping("/joinIn")
 	public String memberJoin(@RequestBody User user) {

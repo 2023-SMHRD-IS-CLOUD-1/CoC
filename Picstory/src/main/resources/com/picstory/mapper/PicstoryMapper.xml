@@ -9,6 +9,15 @@
 		= #{user_pw}
 	</select>
 
+	<!-- 결제완료 -->
+	<select id="payment" parameterType="com.picstory.model.User"
+		resultType="String">
+		UPDATE tb_user
+		SET user_premium= '20'
+		WHERE user_num=
+		#{user_num}
+	</select>
+
 	<!-- 회원가입 -->
 	<insert id="memberJoin" parameterType="com.picstory.model.User">
 		insert into
@@ -217,7 +226,8 @@
 	<select id="countPhoto" parameterType="com.picstory.model.User"
 		resultType="Integer">
 		select count(photo_num) from tb_photo
-		where user_num = #{user_num}
+		where user_num =
+		#{user_num}
 	</select>
 
 	<!-- 회원탈퇴 -->
@@ -266,13 +276,16 @@
 
 
 	<!-- 필터링한 사진 정보 가져오기 -->
-	<select id="selectTaggedPhoto" parameterType="com.picstory.model.Photo" resultType="com.picstory.model.Photo">
-	    SELECT s3_photo_name, photo_url, user_photo_name 
-	    FROM tb_photo
-	    WHERE user_num = #{user_num} AND photo_num IN
-	    <foreach collection="photo_num_list" item="photoNum" open="(" separator="," close=")">
-	        #{photoNum}
-	    </foreach>
+	<select id="selectTaggedPhoto"
+		parameterType="com.picstory.model.Photo"
+		resultType="com.picstory.model.Photo">
+		SELECT s3_photo_name, photo_url, user_photo_name
+		FROM tb_photo
+		WHERE user_num = #{user_num} AND photo_num IN
+		<foreach collection="photo_num_list" item="photoNum" open="("
+			separator="," close=")">
+			#{photoNum}
+		</foreach>
 	</select>
 
 

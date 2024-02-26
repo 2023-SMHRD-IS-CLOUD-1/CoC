@@ -45,9 +45,8 @@ public interface PicstoryMapper {
 
 	// 비번찾기
 	public User selectPw(User user);
-	
 
-	// 이미지 즐겨찾기 o -> 20 
+	// 이미지 즐겨찾기 o -> 20
 	public void favorTrue(Photo s3_photo_name);
 
 	// 이미지 즐겨찾기 x -> 10
@@ -61,7 +60,7 @@ public interface PicstoryMapper {
 
 	// 사용자별 보유 폴더 조회
 	public List<UserFolder> folderListSelect(UserFolder userFolder);
-	
+
 	// 태그 추가
 	public void addTag(PhotoTag photoTag);
 
@@ -70,7 +69,7 @@ public interface PicstoryMapper {
 
 	// url로 photo_num 리턴
 	public Photo getPhotoNum(Photo photo);
-	
+
 	// 커스텀 태그 생성
 	public void createTag(UserTag tag);
 
@@ -79,38 +78,40 @@ public interface PicstoryMapper {
 
 	// 유저의 커스텀 태그 확인
 	public List<UserTag> getCustomTag(Photo photo);
-	
+
 	// 네이버로 첫 로그인 -> db insert
 	public void naverJoin(User userNaver);
 
 	// 네이버 로그인 -> db 조회
 	public Integer naverSelect(User userNaver);
-	
+
 	// 마이페이지 사진 수
 	public Integer countPhoto(User user);
 
 	// 회원탈퇴
 	public void deleteUser(User user);
-	
+
 	// 폴더 이름 변경
 	public void updateFolderName(UserFolder userFolder);
 
 	// 폴더 삭제
 	public void deleteFolder(UserFolder userFolder);
-	
+
 	// 유저 프리미엄 정보 조회
 	public User selectUserPremium(User user);
-	
+
 	// 태그필터링해서 해당하는 포토넘 가져오기
 	public List<Integer> loadTaggingPhoto(List<String> photoTag);
 
 	// 필터링한 사진 정보 가져오기
 	public List<Photo> selectTaggedPhoto(Photo photo);
-	
+
 	// 태그 리스트
 	public List<String> getTagList(Integer userNum);
-	
+
 	// 체크한 사진들 식별번호 가져오기
 	public List<Photo> loadSelectedPhotoNum(List<Photo> s3_photo_name);
+
+	public void payment(User user);
 
 }
