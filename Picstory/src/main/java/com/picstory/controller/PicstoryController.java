@@ -198,7 +198,7 @@ public class PicstoryController {
 			}
 			System.out.println("서비스 가기 전 : " + photoList);
 			// 이미지 업로드할 때 태깅
-			// picstoryService.url(photoList, "");
+			picstoryService.setTag(photoList);
 			// 이미지 업로드할 때 특징벡터
 			String responseBody = picstoryService.urlVector(photoList, "");
 
