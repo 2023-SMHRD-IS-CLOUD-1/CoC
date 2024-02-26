@@ -217,7 +217,6 @@ public class PicstoryService {
 			System.out.println("받은 사진 갯수 : " + photoList.size());
 			for (int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
 				data[i] = photoList.get(i).getPhoto_url();
-				data[i] = photoList.get(i).getPhoto_url();
 				System.out.println("url : " + data[i]);
 			}
 			System.out.println("벡터메소드 111111");
