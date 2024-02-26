@@ -111,7 +111,7 @@ public interface PicstoryMapper {
 	public List<String> getTagList(Integer userNum);
 
 	// 체크한 사진들 식별번호 가져오기
-	public List<Photo> loadSelectedPhotoNum(List<Photo> s3_photo_name);
+	public List<Integer> loadSelectedPhotoNum(List<String> s3photoname);
 
 	public void payment(User user);
 	

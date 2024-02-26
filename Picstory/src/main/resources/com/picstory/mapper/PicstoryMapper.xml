@@ -297,13 +297,13 @@
 	</select>
 
 	<!-- 체크한 사진들 식별번호 가져오기 -->
-	<select id="loadSelectedPhotoNum"
-		parameterType="com.picstory.model.Photo"
-		resultType="com.picstory.model.Photo">
+	<select id="loadSelectedPhotoNum" parameterType="java.util.List" resultType="java.lang.Integer">
 		SELECT photo_num
 		FROM tb_photo
-		WHERE s3_photo_name =
-		#{s3_photo_name}
+		WHERE  s3_photo_name IN
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+        #{item}
+    	</foreach>
 	</select>
 	
 	<!-- 체크한 사진 삭제하기 --> 
