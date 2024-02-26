@@ -20,7 +20,9 @@ public class SpringbootSecurityConfig {
 	                        "/mailDoubleCheck", "/myinfo", "/infoUpdate", "/imageUpload",
 	                        "/imageDownload", "/selectId", "/selectPw", "/favorTrue",
 	                        "/favorFalse", "/favorPageImgList", "/folderList", "/folderListSelect", "/url",
-	                        "/naverJoin", "/deleteUser", "/prove", "/reProve")
+	                        "/naverJoin", "/deleteUser", "/payment", "/updateFolderName", "/deleteFolder","/createTag",
+	                        "/getCustomTag","/selectUserPremium", "/loadTaggingPhoto", "/selectTaggedPhoto","/loadSelectedPhotoNum"
+	                        ,"/deleteChckedPhoto","/addPhotoToFolder","/savePhotoInFolder")
 	                  .permitAll().antMatchers("/billing/**").hasRole("1").anyRequest().authenticated())
 	            .formLogin(login -> login.disable()); 
 
