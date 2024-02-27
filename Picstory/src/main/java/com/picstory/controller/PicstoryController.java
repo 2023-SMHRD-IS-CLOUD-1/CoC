@@ -163,6 +163,7 @@ public class PicstoryController {
 					// 이미지 업로드할 때 태깅
 					Photo photoTmp = new Photo();
 					photoTmp.setPhoto_url(photoUrlsArray[j]);
+					photoTmp.setUser_num(data.getUser_num());
 					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
 					photoList.add(photoTmp);
 				}
@@ -193,6 +194,7 @@ public class PicstoryController {
 					Photo photoTmp = new Photo();
 					photoTmp.setPhoto_url(photoUrlsArray[i]);
 					photoTmp.setPhoto_num(picstoryService.getPhotoNum(photoTmp).getPhoto_num());
+					photoTmp.setUser_num(data.getUser_num());
 					photoList.add(photoTmp);
 				}
 			}
