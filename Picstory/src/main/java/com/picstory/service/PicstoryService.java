@@ -145,7 +145,7 @@ public class PicstoryService {
 		String url = "";
 		String[] data = null;
 		if (user_tag_name.equals("")) {
-			url = "http://52.41.65.59:4005/predict"; // 적절한 호스트와 포트를 사용해야 함
+			url = "http://54.70.10.23:4005/predict"; // 적절한 호스트와 포트를 사용해야 함
 			data = new String[photoList.size()]; // 통신에 보낼 배열을 url 갯수와 크기를 동일하게 지정해 생성
 			System.out.println("받은 사진 갯수 : " + photoList.size());
 			for (int i = 0; i < photoList.size(); i++) { // 배열에 url 추가
