@@ -355,4 +355,12 @@
 		WHERE photo_num = #{photo_num}
 	</select> 
 	
+		<select id="unsubscribe"
+		parameterType="com.picstory.model.User"
+		resultType="com.picstory.model.User">
+		SELECT * FROM tb_user
+		where user_num = #{user_num}
+	</select>
+	
+	
 </mapper>

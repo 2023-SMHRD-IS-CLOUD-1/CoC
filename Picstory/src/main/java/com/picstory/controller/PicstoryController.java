@@ -290,8 +290,24 @@ public class PicstoryController {
 
 	// 회원탈퇴
 	@PostMapping("/deleteUser")
-	public void deleteUser(@RequestBody User user) {
-		picstoryService.deleteUser(user);
+	public User deleteUser(@RequestBody User user) {
+		
+		System.out.println("user>>>>>>>>>>>>>>>>"+user);
+		
+		User encodeInfo = picstoryService.unsubscribe(user);
+		System.out.println("encodeInfoencodeInfo"+encodeInfo);
+
+		if (encodeInfo != null && passwordEncoder.matches(user.getUser_pw(), encodeInfo.getUser_pw())) {
+			System.out.println("로그인 비밀번호 일치");
+			picstoryService.deleteUser(user);
+			return encodeInfo;
+		} else {
+			System.out.println("불일치");
+			return null;
+		}
+	
+		
+
 	}
 
 	// 사용자 폴더 이름 변경
