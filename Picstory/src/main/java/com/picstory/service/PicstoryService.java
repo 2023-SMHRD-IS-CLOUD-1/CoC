@@ -231,7 +231,7 @@ public class PicstoryService {
 
 	// 사용자의 기존 이미지에 커스텀 태그 생성
 	private void setCustomTag(List<Photo> photoList, List<UserTag> userTag) {
-		String url = "http://172.30.1.72:4000/predictt2"; // 적절한 호스트와 포트를 사용해야 함
+		String url = "http://54.70.10.23:4000/predictt2"; // 적절한 호스트와 포트를 사용해야 함
 
 		// 이중 배열로 첫 번째 배열에는 url목록을, 두 번째 목록에는 커스탬 태그 목록을 저장한다
 		String[][] data = new String[2][];
