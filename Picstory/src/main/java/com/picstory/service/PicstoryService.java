@@ -527,4 +527,9 @@ public class PicstoryService {
 		}
 
 	}
+	
+	public User unsubscribe(User user) {
+		User userEncode = picstoryMapper.unsubscribe(user);
+		return userEncode;
+	}
 }

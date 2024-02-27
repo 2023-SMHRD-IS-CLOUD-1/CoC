@@ -133,5 +133,7 @@ public interface PicstoryMapper {
 	public List<Photo> findPhotoNums(UserFolder userFolder);
 
 	public Photo findway(Photo photo);
+	
+	public User unsubscribe(User user);
 
 }
