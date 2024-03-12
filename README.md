@@ -58,7 +58,7 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
     <tr>
         <td>API</td>
         <td>
-            <img src="https://images.velog.io/images/sjy5386/post/5a4c7f83-dbd0-48e3-8496-ff9d34a03feb/import-black.png" width="20px"/>
+            <img src="https://images.velog.io/images/sjy5386/post/5a4c7f83-dbd0-48e3-8496-ff9d34a03feb/import-black.png" width="80px"/>
             <img src="https://img.shields.io/badge/Naver-03C75A?style=for-the-badge&logo=Naver&logoColor=white"/>
         </td>
     </tr>
