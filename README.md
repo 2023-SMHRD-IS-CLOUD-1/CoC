@@ -45,7 +45,7 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
     <tr>
         <td>Back</td>
         <td>
-            <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"/>
+            <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white"/>
             <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=Flask&logoColor=white"/>
         </td>
     </tr>
@@ -65,7 +65,7 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
     <tr>
         <td>storage</td>
         <td>
-            <img src="https://img.shields.io/badge/AmazonS3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"/>
+            <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"/>
         </td>
     </tr>
    <tr>
