@@ -106,4 +106,4 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
 | 클라우드 플랫폼         | AWS ec2 |
 
 ## 8. 팀원소개
-<img width="500" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/c8529527-25f9-4d5d-86cd-9901cab99724"/>
+<img width="800" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/c8529527-25f9-4d5d-86cd-9901cab99724"/>
