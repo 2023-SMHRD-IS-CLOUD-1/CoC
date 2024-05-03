@@ -95,6 +95,15 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
 <img width="434" alt="image" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/48939c12-1e37-4630-beaf-9f3d645d9ad1">
 
 ## 7. 개발환경
+|                     분류 | 설명                                                              |
+|-------------------------:|-------------------------------------------------------------------|
+| 운영체제                 | Windows10                                                         |
+| 버전 관리 시스템         | Github, Git                                                            |
+| 개발 도구                | Eclipse IDE (2023-06),  vs code, Docker                  |
+| 개발 언어 및 프레임 워크 | Java 1.8.0_202, Js, Python 3.11.4, React, Flask                 |
+| 데이터 베이스            | ORACLE 11                                                         |
+| 하드웨어                 | NVIDIA GeForce RTX 2070,Intel(R) Core(TM) i7-10700 CPU,RAM 16.0GB |
+| 클라우드 플랫폼         | AWS ec2 |
 
 ## 8. 팀원소개
 <img width="500" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/c8529527-25f9-4d5d-86cd-9901cab99724"/>
