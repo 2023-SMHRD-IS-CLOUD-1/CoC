@@ -94,12 +94,7 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
 ## 6. 시스템 아키텍쳐
 <img width="434" alt="image" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/48939c12-1e37-4630-beaf-9f3d645d9ad1">
 
-## 7. 트러블슈팅
+## 7. 개발환경
 
-## 8. 참고문헌
-
-## 9. 개발환경
-
-## 10. 팀원소개
-
-## 11. 링크
+## 8. 팀원소개
+<img width="500" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/c8529527-25f9-4d5d-86cd-9901cab99724"/>
