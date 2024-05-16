@@ -1,10 +1,9 @@
 # CoC
 ![image](https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/32b8bbc4-b36a-462d-aef8-37d9869007d1)
+ 
+### 제작 기간 : 24.02.01 ~ 24.02.28  <br/>  FE : [React](https://github.com/2023-SMHRD-IS-CLOUD-1/PicStoryReact.git)
+<br/>
 
-### 제작 기간 : 24.02.01 ~ 24.02.28
-<br/>
-FE : [React](https://github.com/2023-SMHRD-IS-CLOUD-1/PicStoryReact.git])
-<br/>
 ## 1. 서비스 소개
 AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
 <br/>
