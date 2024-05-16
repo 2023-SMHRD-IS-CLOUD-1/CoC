@@ -3,7 +3,8 @@
 
 ### 제작 기간 : 24.02.01 ~ 24.02.28
 <br/>
-
+FE : [https://github.com/2023-SMHRD-IS-CLOUD-1/PicStoryReact.git]
+<br/>
 ## 1. 서비스 소개
 AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
 <br/>
