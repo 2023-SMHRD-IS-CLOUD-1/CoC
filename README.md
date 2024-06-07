@@ -105,5 +105,12 @@ AI 기술을 활용한 이미지 태깅 기반의 사진첩 서비스
 | 하드웨어                 | NVIDIA GeForce RTX 2070,Intel(R) Core(TM) i7-10700 CPU,RAM 16.0GB |
 | 클라우드 플랫폼         | AWS ec2 |
 
+
 ## 8. 팀원소개
 <img width="800" src="https://github.com/2023-SMHRD-IS-CLOUD-1/SpringCoC/assets/117277864/c8529527-25f9-4d5d-86cd-9901cab99724"/>
+
+## 9. 시현영상
+
+[![Video Thumbnail](https://youtu.be/tgZOGdNn0iA?si=rC3LUMn0Ncf71j7T/0.jpg)](https://youtu.be/tgZOGdNn0iA?si=rC3LUMn0Ncf71j7T)
+
+
